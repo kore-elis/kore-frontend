@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background: var(--bg-base);
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.client-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.client-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(26, 52, 98, 0.10);
+  border-color: rgba(201, 169, 110, 0.45);
+}
+
+.client-card:hover .card-action-btn {
+  background: var(--navy-primary);
+  color: #ffffff;
+  border-color: var(--navy-primary);
+}
+
+.card-action-btn {
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}

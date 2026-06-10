@@ -1,0 +1,462 @@
+<div class="register-page" [class.rp--step2]="currentStep === 2">
+
+  <!-- SINISTRA — Pannello hero (solo step 1) -->
+  <div class="rp-left" aria-hidden="true">
+    <div class="rp-left__orb rp-left__orb--gold glow-orb-gold"></div>
+    <div class="rp-left__orb rp-left__orb--navy glow-orb-navy"></div>
+    <svg class="rp-left__lines" viewBox="0 0 500 700" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <line x1="-50" y1="0" x2="550" y2="700" stroke="rgba(201,169,110,0.08)" stroke-width="1"/>
+      <line x1="0" y1="0" x2="600" y2="700" stroke="rgba(201,169,110,0.06)" stroke-width="1"/>
+      <line x1="100" y1="0" x2="700" y2="700" stroke="rgba(201,169,110,0.05)" stroke-width="1"/>
+      <line x1="-100" y1="0" x2="500" y2="700" stroke="rgba(201,169,110,0.07)" stroke-width="1"/>
+    </svg>
+    <div class="rp-left__content">
+      <p class="rp-eyebrow text-eyebrow">Il tuo percorso inizia adesso.</p>
+      <h2 class="rp-headline">
+        Unisciti a<br>
+        <span class="rp-headline--gold">Kore.</span>
+      </h2>
+      <ul class="rp-trust">
+        <li class="rp-trust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Scegli il tuo Personal Trainer
+        </li>
+        <li class="rp-trust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Piano alimentare su misura
+        </li>
+        <li class="rp-trust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Polizza sportiva inclusa
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DESTRA — Modulo -->
+  <div class="rp-right">
+    <a routerLink="/" class="btn-back" aria-label="Torna alla home">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Home
+    </a>
+
+    <div class="rp-center" [class.rp-center--wide]="currentStep === 2">
+
+      <!-- Logo -->
+      <a routerLink="/" class="auth-logo" aria-label="Kore — Homepage">
+        <span>Kore</span><span class="auth-logo__dot">.</span>
+      </a>
+
+      <form [formGroup]="registerForm" class="rp-form" [class.rp-form--wide]="currentStep === 2">
+
+        <!-- Indicatore step + intestazione (step 1 e 2) -->
+        @if (currentStep !== 3) {
+          <div class="rp-head">
+            <div class="rp-hd-text">
+              <h1 class="card-title">Crea il tuo account</h1>
+              <p class="card-subtitle">Completa la registrazione in due semplici passi</p>
+            </div>
+            <!-- Indicatore step -->
+            <div class="rp-stepper" aria-label="Avanzamento registrazione">
+              <div class="rp-step" [class.rp-step--active]="currentStep === 1" [class.rp-step--done]="currentStep > 1">
+                <div class="rp-step__dot">
+                  @if (currentStep > 1) {
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  }
+                  @if (currentStep <= 1) {
+                    <span>1</span>
+                  }
+                </div>
+                <span class="rp-step__lbl">Dati personali</span>
+              </div>
+              <div class="rp-step__line" [class.rp-step__line--done]="currentStep > 1"></div>
+              <div class="rp-step" [class.rp-step--active]="currentStep === 2">
+                <div class="rp-step__dot">
+                  <span>2</span>
+                </div>
+                <span class="rp-step__lbl">Piano e professionisti</span>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- STEP 1 — Dati personali -->
+        @if (currentStep === 1) {
+          <div class="rp-step-body">
+            <!-- Caricamento avatar -->
+            <div class="rp-avatar-wrap">
+              <input type="file" id="avatarInput" (change)="onFileSelected($event)" accept="image/*" hidden />
+              <label for="avatarInput" class="rp-avatar" aria-label="Carica foto profilo">
+                @if (profilePictureBase64) {
+                  <img [src]="profilePictureBase64" alt="Anteprima foto" class="rp-avatar__img">
+                }
+                @if (profilePictureBase64) {
+                  <div class="rp-avatar__overlay">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  </div>
+                }
+                @if (!profilePictureBase64) {
+                  <div class="rp-avatar__placeholder">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  </div>
+                }
+              </label>
+              <p class="rp-avatar__hint">Foto profilo · opzionale</p>
+            </div>
+            <!-- Nome / Cognome -->
+            <div class="rp-row">
+              <div class="field-group">
+                <label class="field-label" for="firstName">Nome *</label>
+                <input id="firstName" type="text" formControlName="firstName" placeholder="Mario" class="field-input"
+                  [class.invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+                  @if (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
+                    <div class="field-error">Nome obbligatorio</div>
+                  }
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="lastName">Cognome *</label>
+                  <input id="lastName" type="text" formControlName="lastName" placeholder="Rossi" class="field-input"
+                    [class.invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+                    @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
+                      <div class="field-error">Cognome obbligatorio</div>
+                    }
+                  </div>
+                </div>
+                <!-- Email -->
+                <div class="field-group">
+                  <label class="field-label" for="regEmail">Email *</label>
+                  <div class="input-wrapper">
+                    <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <input id="regEmail" type="email" formControlName="email" placeholder="mario&#64;example.com"
+                      autocomplete="email" class="field-input with-icon"
+                      [class.invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                    </div>
+                    @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                      <div class="field-error">
+                        @if (registerForm.get('email')?.errors?.['required']) {
+                          <span>Email obbligatoria</span>
+                        }
+                        @if (registerForm.get('email')?.errors?.['email']) {
+                          <span>Email non valida</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                  <!-- Password -->
+                  <div class="field-group">
+                    <label class="field-label" for="regPassword">Password *</label>
+                    <div class="input-wrapper">
+                      <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                      </svg>
+                      <input id="regPassword" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                        placeholder="Minimo 6 caratteri" autocomplete="new-password"
+                        class="field-input with-icon"
+                        [class.invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                        <button type="button" class="btn-toggle-password" (click)="togglePasswordVisibility()"
+                          [attr.aria-label]="showPassword ? 'Nascondi' : 'Mostra'">
+                          @if (!showPassword) {
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                          }
+                          @if (showPassword) {
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                          }
+                        </button>
+                      </div>
+                      @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+                        <div class="field-error">
+                          @if (registerForm.get('password')?.errors?.['required']) {
+                            <span>Password obbligatoria</span>
+                          }
+                          @if (registerForm.get('password')?.errors?.['minlength']) {
+                            <span>Minimo 6 caratteri</span>
+                          }
+                        </div>
+                      }
+                    </div>
+                    <!-- Conferma password -->
+                    <div class="field-group">
+                      <label class="field-label" for="regConfirm">Conferma password *</label>
+                      <div class="input-wrapper">
+                        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        <input id="regConfirm" [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword"
+                          placeholder="Ripeti la password" autocomplete="new-password"
+                          class="field-input with-icon"
+                          [class.invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+                          <button type="button" class="btn-toggle-password" (click)="toggleConfirmPasswordVisibility()"
+                            [attr.aria-label]="showConfirmPassword ? 'Nascondi' : 'Mostra'">
+                            @if (!showConfirmPassword) {
+                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            }
+                            @if (showConfirmPassword) {
+                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            }
+                          </button>
+                        </div>
+                        @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
+                          <div class="field-error">
+                            @if (registerForm.get('confirmPassword')?.errors?.['required']) {
+                              <span>Conferma la password</span>
+                            }
+                            @if (registerForm.get('confirmPassword')?.errors?.['mismatch']) {
+                              <span>Le password non corrispondono</span>
+                            }
+                          </div>
+                        }
+                      </div>
+                      <button type="button" class="btn-primary btn-primary--full" (click)="goToStep2()">
+                        Avanti
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                      </button>
+                      <p class="card-footer">
+                        Hai già un account?
+                        <a routerLink="/login" class="link">Accedi</a>
+                      </p>
+                    </div>
+                  }
+
+                  <!-- STEP 2 — Piano + Professionisti -->
+                  @if (currentStep === 2) {
+                    <div class="rp-step-body">
+                      <!-- Scegli piano -->
+                      <div class="rp-section">
+                        <h3 class="rp-section__title">Scegli il tuo piano</h3>
+                        <div class="rp-plans">
+                          @for (plan of plans; track plan; let i = $index) {
+                            <div
+                              class="rp-plan"
+                              [class.rp-plan--selected]="registerForm.value.selectedPlanId === plan.id"
+                              (click)="selectPlan(plan.id)"
+                              [attr.aria-pressed]="registerForm.value.selectedPlanId === plan.id"
+                              role="button">
+                              @if (i > 0) {
+                                <div class="rp-plan__badge">{{ i === 1 ? 'Popolare' : 'Premium' }}</div>
+                              }
+                              <div class="rp-plan__check" aria-hidden="true">
+                                @if (registerForm.value.selectedPlanId === plan.id) {
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                }
+                              </div>
+                              <h4 class="rp-plan__name">{{ plan.name }}</h4>
+                              <div class="rp-plan__price">
+                                <span class="rp-plan__currency">€</span>
+                                <span class="rp-plan__amount">{{ plan.fullPrice }}</span>
+                              </div>
+                              <p class="rp-plan__period">Contratto {{ plan.name }}</p>
+                            </div>
+                          }
+                        </div>
+                        <input type="hidden" formControlName="selectedPlanId">
+                        @if (registerForm.get('selectedPlanId')?.invalid && registerForm.get('selectedPlanId')?.touched) {
+                          <div class="field-error">
+                            Seleziona un piano
+                          </div>
+                        }
+                      </div>
+                      <!-- Metodo di pagamento -->
+                      <div class="rp-section">
+                        <h3 class="rp-section__title">Metodo di pagamento</h3>
+                        <div class="input-wrapper">
+                          <select formControlName="paymentFrequency" class="field-input">
+                            <option value="UNICA_SOLUZIONE">Pagamento unico (risparmia)</option>
+                            <option value="RATE_MENSILI">Rate mensili</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- Personal Trainer -->
+                      <div class="rp-section">
+                        <h3 class="rp-section__title">Scegli il tuo Personal Trainer</h3>
+                        <div class="rp-search">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                          <input type="text" class="rp-search__input" placeholder="Cerca per nome..." [(ngModel)]="ptSearch" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="rp-prof-grid">
+                          @for (pt of filteredPts; track pt) {
+                            <div
+                              class="rp-prof"
+                              [class.rp-prof--selected]="registerForm.value.selectedPtId === pt.id"
+                              [class.rp-prof--full]="pt.soldOut"
+                              (click)="!pt.soldOut && selectPt(pt.id)"
+                              [attr.aria-disabled]="pt.soldOut"
+                              role="button">
+                              <div class="rp-prof__avatar">
+                                @if (pt.profilePicture) {
+                                  <img [src]="pt.profilePicture" [alt]="pt.fullName" class="rp-prof__img">
+                                }
+                                @if (!pt.profilePicture) {
+                                  <span class="rp-prof__initials">{{ getInitials(pt.fullName) }}</span>
+                                }
+                              </div>
+                              <div class="rp-prof__info">
+                                <span class="rp-prof__name">{{ pt.fullName }}</span>
+                                <span class="rp-prof__rating">★ {{ pt.averageRating | number:'1.1-1' }}/5</span>
+                              </div>
+                              @if (pt.soldOut) {
+                                <span class="rp-prof__sold">Completo</span>
+                              }
+                              @if (registerForm.value.selectedPtId === pt.id) {
+                                <div class="rp-prof__tick" aria-hidden="true">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                              }
+                              <button type="button" class="rp-prof__reviews"
+                                (click)="$event.stopPropagation(); openReviewsModal(pt)">
+                                Recensioni
+                              </button>
+                            </div>
+                          }
+                          @if (filteredPts.length === 0) {
+                            <div class="rp-prof-empty">Nessun risultato</div>
+                          }
+                        </div>
+                        <input type="hidden" formControlName="selectedPtId">
+                        @if (registerForm.get('selectedPtId')?.invalid && registerForm.get('selectedPtId')?.touched) {
+                          <div class="field-error">
+                            Seleziona un Personal Trainer
+                          </div>
+                        }
+                      </div>
+                      <!-- Nutrizionista -->
+                      <div class="rp-section">
+                        <h3 class="rp-section__title">Scegli il tuo Nutrizionista</h3>
+                        <div class="rp-search">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                          <input type="text" class="rp-search__input" placeholder="Cerca per nome..." [(ngModel)]="nutSearch" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="rp-prof-grid">
+                          @for (nut of filteredNuts; track nut) {
+                            <div
+                              class="rp-prof"
+                              [class.rp-prof--selected]="registerForm.value.selectedNutritionistId === nut.id"
+                              [class.rp-prof--full]="nut.soldOut"
+                              (click)="!nut.soldOut && selectNut(nut.id)"
+                              [attr.aria-disabled]="nut.soldOut"
+                              role="button">
+                              <div class="rp-prof__avatar">
+                                @if (nut.profilePicture) {
+                                  <img [src]="nut.profilePicture" [alt]="nut.fullName" class="rp-prof__img">
+                                }
+                                @if (!nut.profilePicture) {
+                                  <span class="rp-prof__initials">{{ getInitials(nut.fullName) }}</span>
+                                }
+                              </div>
+                              <div class="rp-prof__info">
+                                <span class="rp-prof__name">{{ nut.fullName }}</span>
+                                <span class="rp-prof__rating">★ {{ nut.averageRating | number:'1.1-1' }}/5</span>
+                              </div>
+                              @if (nut.soldOut) {
+                                <span class="rp-prof__sold">Completo</span>
+                              }
+                              @if (registerForm.value.selectedNutritionistId === nut.id) {
+                                <div class="rp-prof__tick" aria-hidden="true">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                              }
+                              <button type="button" class="rp-prof__reviews"
+                                (click)="$event.stopPropagation(); openReviewsModal(nut)">
+                                Recensioni
+                              </button>
+                            </div>
+                          }
+                          @if (filteredNuts.length === 0) {
+                            <div class="rp-prof-empty">Nessun risultato</div>
+                          }
+                        </div>
+                        <input type="hidden" formControlName="selectedNutritionistId">
+                        @if (registerForm.get('selectedNutritionistId')?.invalid && registerForm.get('selectedNutritionistId')?.touched) {
+                          <div class="field-error">
+                            Seleziona un Nutrizionista
+                          </div>
+                        }
+                      </div>
+                      <!-- Bottoni step 2 -->
+                      <div class="rp-btn-row">
+                        <button type="button" class="btn-secondary" (click)="goToStep1()" [disabled]="isLoading">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                          Indietro
+                        </button>
+                        <button type="button" class="btn-primary" (click)="onSubmit()" [disabled]="isLoading">
+                          @if (!isLoading) {
+                            <span>
+                              Completa registrazione
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </span>
+                          }
+                          @if (isLoading) {
+                            <span>Registrazione in corso...</span>
+                          }
+                        </button>
+                      </div>
+                    </div>
+                  }
+
+                  <!-- STEP 3 — Successo -->
+                  @if (currentStep === 3) {
+                    <div class="rp-success">
+                      <div class="rp-success__ring" aria-hidden="true">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                      <h2 class="rp-success__title">Benvenuto/a in Kore!</h2>
+                      <p class="rp-success__sub">Il tuo account è stato creato con successo.<br>Verrai reindirizzato al login...</p>
+                      <a routerLink="/login" class="btn-primary">Vai al Login →</a>
+                    </div>
+                  }
+
+                </form>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Toast -->
+          @if (toast) {
+            <div class="rp-toast" [class.rp-toast--success]="toast.type === 'success'" [class.rp-toast--error]="toast.type === 'error'" role="alert">
+              <span class="rp-toast__icon">{{ toast.type === 'success' ? '✓' : '!' }}</span>
+              <span class="rp-toast__msg">{{ toast.message }}</span>
+              <button class="rp-toast__close" type="button" (click)="dismissToast()" aria-label="Chiudi notifica">✕</button>
+            </div>
+          }
+
+          <!-- Modale recensioni -->
+          @if (reviewsModal) {
+            <div class="rp-modal-overlay" (click)="closeReviewsModal()">
+              <div class="rp-modal" (click)="$event.stopPropagation()" role="dialog" [attr.aria-label]="reviewsModal.prof.fullName + ' — Recensioni'">
+                <div class="rp-modal__head">
+                  <h3 class="rp-modal__title">{{ reviewsModal.prof.fullName }}</h3>
+                  <button class="rp-modal__close" type="button" (click)="closeReviewsModal()" aria-label="Chiudi">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  </button>
+                </div>
+                <div class="rp-modal__body">
+                  @if (reviewsLoading) {
+                    <div class="rp-modal__loading">Caricamento recensioni...</div>
+                  }
+                  @if (!reviewsLoading) {
+                    @for (r of reviewsModal.reviews; track r) {
+                      <div class="rp-review">
+                        <div class="rp-review__top">
+                          <span class="rp-review__author">{{ r.authorName }}</span>
+                          <div class="rp-review__stars" [attr.aria-label]="r.rating + ' stelle su 5'">
+                            @for (s of [1,2,3,4,5]; track s) {
+                              <span [class.rp-star--on]="r.rating >= s">★</span>
+                            }
+                          </div>
+                        </div>
+                        <p class="rp-review__comment">{{ r.comment }}</p>
+                      </div>
+                    }
+                    @if (reviewsModal.reviews.length === 0) {
+                      <div class="rp-modal__empty">
+                        Nessuna recensione per questo professionista.
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+            </div>
+          }

@@ -1,0 +1,614 @@
+<div class="home-page">
+
+  <!-- SCHERMATA INTRODUTTIVA -->
+  @if (showIntro) {
+    <div class="intro" [class.intro--exit]="introExiting" role="presentation">
+      <div class="intro__glow" aria-hidden="true"></div>
+      <div class="intro__grain" aria-hidden="true"></div>
+      <div class="intro__content">
+        <div class="intro__line-bar" aria-hidden="true"></div>
+        <div class="intro__logo-wrap">
+          <span class="intro__logo">Kore<span class="intro__dot">.</span></span>
+        </div>
+        <p class="intro__tag">personal trainer · nutrizionista · assicurazione</p>
+      </div>
+      <button class="intro__skip" (click)="skipIntro()" aria-label="Salta intro">Salta →</button>
+    </div>
+  }
+
+  <!-- BARRA DI NAVIGAZIONE -->
+  <header class="navbar" [class.navbar--scrolled]="navScrolled">
+    <div class="container navbar__inner">
+      <a routerLink="/" class="navbar__logo">Kore<span class="navbar__dot">.</span></a>
+      <nav class="navbar__links" aria-label="Navigazione">
+        <a class="navbar__link" (click)="scrollToSection('come-funziona')">Come funziona</a>
+        <a class="navbar__link" (click)="scrollToSection('piani')">Piani</a>
+        <a class="navbar__link" (click)="scrollToSection('app')">L'app</a>
+        <a class="navbar__link" (click)="scrollToSection('faq')">FAQ</a>
+      </nav>
+      <div class="navbar__actions">
+        <a routerLink="/login" class="navbar__btn-ghost">Accedi</a>
+        <a routerLink="/register" class="navbar__btn-cta">Inizia ora</a>
+      </div>
+      <button class="navbar__ham" (click)="toggleMobileMenu()" aria-label="Menu" [attr.aria-expanded]="isMobileMenuOpen">
+        <span class="navbar__bar" [style.transform]="isMobileMenuOpen ? 'rotate(45deg) translate(5px,5px)' : ''"></span>
+        <span class="navbar__bar" [style.opacity]="isMobileMenuOpen ? '0' : '1'"></span>
+        <span class="navbar__bar" [style.transform]="isMobileMenuOpen ? 'rotate(-45deg) translate(5px,-5px)' : ''"></span>
+      </button>
+    </div>
+    <div class="navbar__mob" [class.navbar__mob--open]="isMobileMenuOpen" [attr.aria-hidden]="!isMobileMenuOpen">
+      <div class="navbar__mob-inner">
+        <a class="navbar__mob-link" (click)="scrollToSection('come-funziona'); closeMobileMenu()">Come funziona</a>
+        <a class="navbar__mob-link" (click)="scrollToSection('piani'); closeMobileMenu()">Piani</a>
+        <a class="navbar__mob-link" (click)="scrollToSection('professionisti'); closeMobileMenu()">Professionisti</a>
+        <a class="navbar__mob-link" (click)="scrollToSection('app'); closeMobileMenu()">L'app</a>
+        <a class="navbar__mob-link" (click)="scrollToSection('faq'); closeMobileMenu()">FAQ</a>
+        <div class="navbar__mob-actions">
+          <a routerLink="/login" class="btn btn-ghost btn-full" (click)="closeMobileMenu()">Accedi</a>
+          <a routerLink="/register" class="btn btn-gold btn-full" (click)="closeMobileMenu()">Inizia ora</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO — scuro cinematografico -->
+  <section class="hero hero--dark" id="hero" aria-label="Benvenuto in Kore">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__grid"></div>
+      <div class="hero__orb hero__orb--gold parallax-layer"></div>
+      <div class="hero__orb hero__orb--navy parallax-layer"></div>
+      <div class="hero__grain"></div>
+    </div>
+
+    <div class="hero__inner container">
+      <div class="hero__copy">
+        <span class="eyebrow hero__eyebrow">personal trainer · nutrizionista · polizza sportiva</span>
+        <h1 class="hero__title">
+          <span class="hero__line-wrap"><span class="hero__line" style="animation-delay:.35s">Il tuo team,</span></span>
+          <span class="hero__line-wrap"><span class="hero__line" style="animation-delay:.52s"><span class="hero__mark">Il tuo benessere.</span></span></span>
+        </h1>
+        <p class="hero__sub">
+          Non un marketplace. Un percorso continuo con un team coordinato: il tuo Personal Trainer, il tuo Nutrizionista, una polizza inclusa dal primo giorno.
+        </p>
+        <div class="hero__cta">
+          <a routerLink="/register" class="btn btn-gold-lg">Scegli il tuo piano
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn-ghost-dark-lg" (click)="scrollToSection('come-funziona')">Scopri il metodo</a>
+        </div>
+      </div>
+
+      <div class="hero__deco" aria-hidden="true">
+        <span class="hero__ghost">KORE</span>
+        <div class="hero__stat hero__stat--1">
+          <span class="hero__stat-num">500+</span>
+          <span class="hero__stat-lbl">Clienti attivi</span>
+        </div>
+        <div class="hero__stat hero__stat--2">
+          <span class="hero__stat-num">4.9 ★</span>
+          <span class="hero__stat-lbl">Valutazione media</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+  
+  <!-- COME FUNZIONA -->
+  <section class="cfs" id="come-funziona">
+    <div class="section-hd" data-reveal>
+      <p class="text-eyebrow">Il metodo</p>
+      <h2 class="section-h2">Tre passi.<br>Un percorso continuo.</h2>
+    </div>
+
+    <div class="cfs__grid">
+      <div class="cfs__step" data-reveal>
+        <span class="cfs__num">01</span>
+        <div class="cfs__connector" aria-hidden="true"></div>
+        <h3 class="cfs__title">Analisi e pianificazione</h3>
+        <p class="cfs__desc">Il tuo PT e il tuo nutrizionista — assegnati a te — analizzano il punto di partenza e definiscono insieme gli obiettivi a breve e lungo termine.</p>
+      </div>
+      <div class="cfs__step" data-reveal>
+        <span class="cfs__num">02</span>
+        <div class="cfs__connector" aria-hidden="true"></div>
+        <h3 class="cfs__title">Azione e costanza</h3>
+        <p class="cfs__desc">Sessioni 1-to-1 prenotabili con i crediti del tuo piano. Online o in presenza, sempre con gli stessi professionisti che ti conoscono.</p>
+      </div>
+      <div class="cfs__step" data-reveal>
+        <span class="cfs__num">03</span>
+        <h3 class="cfs__title">Feedback e risultati</h3>
+        <p class="cfs__desc">Carichi, alimentazione e protocolli aggiornati ogni settimana sui tuoi progressi reali — non su un programma generico scaricato da internet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIANI -->
+  <section class="section plans-section" id="piani">
+    <div class="container">
+      <div class="section-hd" data-reveal>
+        <span class="eyebrow">I piani</span>
+        <h2 class="section-heading">Due pack.<br>Una sola filosofia.</h2>
+        <p class="section-sub">Tutti i piani includono PT + Nutrizionista dedicati e polizza sportiva.</p>
+      </div>
+
+      <div class="plans-toggle" data-reveal>
+        <span class="plans-toggle-lbl" [class.active]="!isAnnual" (click)="toggleBilling(false)">Semestrale</span>
+        <div class="toggle-switch" [class.on]="isAnnual" role="switch" [attr.aria-checked]="isAnnual" (click)="toggleBilling(!isAnnual)">
+          <div class="toggle-knob"></div>
+        </div>
+        <span class="plans-toggle-lbl" [class.active]="isAnnual" (click)="toggleBilling(true)">
+          Annuale <span class="plans-save">–10%</span>
+        </span>
+      </div>
+
+      <div class="plans-grid">
+        @for (plan of displayedPlans; track plan.id; let i = $index) {
+          <div class="plan-card" [class.plan-card--featured]="isFeaturedPlan(plan)" data-reveal [attr.data-reveal-delay]="i + 1">
+            @if (isFeaturedPlan(plan)) {
+              <div class="plan-badge">Più scelto</div>
+            }
+            <h3 class="plan-name">{{ plan.name }}</h3>
+            <p class="plan-desc">
+              {{ plan.monthlyCreditsPT === 1
+                ? 'Un PT e un nutrizionista dedicati, una sessione al mese ciascuno. Per costruire una base solida.'
+                : 'Due sessioni al mese per professionista. Per chi vuole accelerare senza compromessi.' }}
+            </p>
+            <div class="plan-price-row">
+              <div class="plan-price">
+                <span class="plan-cur">€</span>
+                <span class="plan-amount">{{ plan.monthlyInstallmentPrice }}</span>
+                <span class="plan-period">/mese</span>
+              </div>
+            </div>
+            <p class="plan-billing">Fatturazione {{ isAnnual ? 'annuale' : 'semestrale' }}: €{{ plan.fullPrice }}</p>
+            <div class="plan-credits">
+              <div class="plan-cred-item">
+                <span class="plan-cred-num">{{ plan.monthlyCreditsPT }}</span>
+                <span class="plan-cred-lbl">sessioni PT/mese</span>
+              </div>
+              <div class="plan-cred-sep"></div>
+              <div class="plan-cred-item">
+                <span class="plan-cred-num">{{ plan.monthlyCreditsNutri }}</span>
+                <span class="plan-cred-lbl">sessioni Nutri/mese</span>
+              </div>
+            </div>
+            <button class="plan-cta" [class.plan-cta--featured]="isFeaturedPlan(plan)" [class.plan-cta--default]="!isFeaturedPlan(plan)" (click)="goToRegister(plan.id)">
+              Attiva piano
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <ul class="plan-feats">
+              @for (f of planFeats; track f) {
+                <li class="plan-feat">
+                  <span class="plan-check" aria-hidden="true"></span>{{ f }}
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFESSIONISTI -->
+  <section class="section" id="professionisti">
+    <div class="container">
+      <div class="section-hd" data-reveal>
+        <span class="eyebrow">Il team</span>
+        <h2 class="section-heading">Tre figure.<br>Una sola visione.</h2>
+        <p class="section-sub">Personal Trainer, Nutrizionista, copertura assicurativa. Un team coordinato che lavora insieme, per te.</p>
+      </div>
+      <div class="prof-grid">
+        <div class="tilt-wrap prof-card" data-reveal data-reveal-delay="1">
+          <div class="prof-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v16M18 4v16M6 12h12"/><circle cx="6" cy="4" r="2"/><circle cx="6" cy="20" r="2"/><circle cx="18" cy="4" r="2"/><circle cx="18" cy="20" r="2"/></svg>
+          </div>
+          <h3 class="prof-title">Personal Trainer</h3>
+          <p class="prof-desc">Un coach che costruisce e aggiorna il tuo programma settimana dopo settimana. Sessioni 1-to-1 — non video registrati.</p>
+          <span class="prof-tag">Certificati CONI / EREPS</span>
+        </div>
+        <div class="tilt-wrap prof-card" data-reveal data-reveal-delay="2">
+          <div class="prof-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 1 5 5c0 2-1.5 3.5-3 4.5V14h-4v-2.5C8.5 10.5 7 9 7 7a5 5 0 0 1 5-5Z"/><path d="M10 14v3a2 2 0 0 0 4 0v-3"/><path d="M8 21h8"/></svg>
+          </div>
+          <h3 class="prof-title">Nutrizionista</h3>
+          <p class="prof-desc">Piano alimentare su misura, calibrato su metabolismo, intolleranze e obiettivi reali. Aggiornato insieme a te.</p>
+          <span class="prof-tag">Laureati in scienze alimentari</span>
+        </div>
+        <div class="tilt-wrap prof-card" data-reveal data-reveal-delay="3">
+          <div class="prof-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+          </div>
+          <h3 class="prof-title">Polizza Sportiva</h3>
+          <p class="prof-desc">Attiva dal primo giorno, inclusa in ogni piano. Zero burocrazia: se ti infortuni durante l'attività fisica, sei coperto.</p>
+          <span class="prof-tag">Inclusa in ogni piano</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAROSELLO VIDEO — L'app -->
+  <section class="experience-carousel-section" id="app">
+    <div class="section-hd" data-reveal>
+      <p class="text-eyebrow">L'esperienza</p>
+      <h2 class="section-h2">Vivi l'app in anteprima</h2>
+      <p class="section-sub">Dashboard, prenotazioni, chat, scheda, calendario. Tutto in un'unica piattaforma.</p>
+    </div>
+
+    <div class="experience-carousel" data-reveal>
+      <div class="carousel-stories-bar">
+        @for (video of carouselVideos; track video.key; let i = $index) {
+          <div class="stories-segment"
+               [class.completed]="i < currentCarouselVideoIndex"
+               [class.active]="i === currentCarouselVideoIndex"
+               (click)="selectCarouselVideo(i)">
+            <div class="stories-segment-fill"
+                 [style.width.%]="i < currentCarouselVideoIndex ? 100 : (i === currentCarouselVideoIndex ? videoProgress : 0)">
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="carousel-video-wrapper">
+        <video
+          #carouselVideo
+          class="experience-video"
+          muted
+          playsinline
+          preload="none"
+          (ended)="onCarouselVideoEnded()"
+          (timeupdate)="onVideoTimeUpdate()"
+          [attr.aria-label]="'Demo sezione ' + carouselVideos[currentCarouselVideoIndex].title"
+          [src]="getVideoSrc(carouselVideos[currentCarouselVideoIndex])">
+        </video>
+
+        @if (!isCarouselPlaying) {
+          <button
+            type="button"
+            class="carousel-play-overlay"
+            (click)="onCarouselPlayClick()"
+            aria-label="Avvia il video">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+        }
+
+        <div class="carousel-tap-zone prev-zone" (click)="previousCarouselVideo()" aria-label="Video precedente"></div>
+        <div class="carousel-tap-zone next-zone" (click)="nextCarouselVideo()" aria-label="Video successivo"></div>
+      </div>
+
+      <div class="carousel-card-strip">
+        @for (video of carouselVideos; track video.key; let i = $index) {
+          <div class="carousel-card"
+               [class.active]="i === currentCarouselVideoIndex"
+               [style.transform]="getCardTransform(i)"
+               [style.opacity]="getCardOpacity(i)"
+               (click)="selectCarouselVideo(i)">
+            <span class="carousel-card-title">{{ video.title }}</span>
+            @if (i === currentCarouselVideoIndex) {
+              <div class="carousel-card-progress-track">
+                <div class="carousel-card-progress-bar" [style.width.%]="videoProgress"></div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO -->
+  <section class="section bento-section" id="perche" #bentoSection>
+    <div class="container">
+      <div class="section-hd" data-reveal>
+        <span class="eyebrow">Perché Kore</span>
+        <h2 class="section-heading">Quello che un marketplace<br>non potrà mai darti.</h2>
+      </div>
+      <div class="bento-grid">
+        <div class="bento-cell bento-cell--wide bento-cell--dark" data-reveal data-reveal-delay="1">
+          <div class="bento-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+          <h3 class="bento-title">App completa, zero strumenti esterni</h3>
+          <p class="bento-desc">Dashboard, calendario, chat, documenti, prenotazioni. Tutto sincronizzato in un'unica piattaforma — niente WhatsApp, niente fogli Excel.</p>
+        </div>
+        <div class="bento-cell" data-reveal data-reveal-delay="2">
+          <div class="bento-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+          </div>
+          <h3 class="bento-title">Niente overbooking</h3>
+          <p class="bento-desc">Ogni professionista segue al massimo 50 clienti. La tua sessione non si scontra con altri 200 utenti.</p>
+        </div>
+        <div class="bento-cell" data-reveal data-reveal-delay="3">
+          <div class="bento-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h3 class="bento-title">Recensioni verificate</h3>
+          <p class="bento-desc">Solo chi ha vissuto il percorso può recensire. Zero fake.</p>
+        </div>
+        <div class="bento-cell" data-reveal data-reveal-delay="1">
+          <div class="bento-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="bento-title">Crediti mensili</h3>
+          <p class="bento-desc">Si rinnovano ogni mese e restano disponibili per tutta la durata dell'abbonamento.</p>
+        </div>
+        <div class="bento-cell" data-reveal data-reveal-delay="2">
+          <div class="bento-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3 class="bento-title">Copertura assicurativa</h3>
+          <p class="bento-desc">Inclusa, in ogni piano. Zero costi extra.</p>
+        </div>
+        <div class="bento-cell bento-cell--wide" data-reveal data-reveal-delay="3">
+          <div class="bento-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="bento-title">Rapporto esclusivo</h3>
+          <p class="bento-desc">Lo stesso PT, lo stesso nutrizionista, per tutto il percorso. Ti conoscono davvero — non sei un numero su una lista.</p>
+        </div>
+        <div class="bento-cell" data-reveal data-reveal-delay="1">
+          <div class="bento-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3 class="bento-title">Setup in 48 ore</h3>
+          <p class="bento-desc">Il tuo team operativo dal primo giorno utile. Niente liste d'attesa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATISTICHE -->
+  <section class="stats-section" aria-label="Dati Kore">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item" data-reveal>
+          <span class="stat-number" data-counter="500" data-counter-suffix="+">0+</span>
+          <span class="stat-label">Clienti attivi</span>
+        </div>
+        <div class="stat-sep" aria-hidden="true"></div>
+        <div class="stat-item" data-reveal data-reveal-delay="2">
+          <span class="stat-number" data-counter="50" data-counter-suffix="">0</span>
+          <span class="stat-label">Professionisti certificati</span>
+        </div>
+        <div class="stat-sep" aria-hidden="true"></div>
+        <div class="stat-item" data-reveal data-reveal-delay="3">
+          <span class="stat-number" data-counter="98" data-counter-suffix="%">0%</span>
+          <span class="stat-label">Soddisfazione clienti</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIANZE -->
+  <section class="testimonials" id="testimonianze">
+    <div class="container">
+      <div class="section-hd" data-reveal>
+        <span class="eyebrow">Le voci</span>
+        <h2 class="section-heading">Chi ha scelto Kore.<br>Cosa ha trovato.</h2>
+      </div>
+    </div>
+    <div class="marquee" data-reveal>
+      <div class="marquee-track">
+        @for (t of doubledTestimonials; track $index) {
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"{{ t.text }}"</p>
+            <div class="testi-author">
+              <div class="testi-avatar">{{ t.name[0] }}</div>
+              <div>
+                <div class="testi-name">{{ t.name }}</div>
+                <div class="testi-meta">{{ t.meta }}</div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-hd" data-reveal>
+        <span class="eyebrow">FAQ</span>
+        <h2 class="section-heading">Domande frequenti</h2>
+        <p class="section-sub">Risposte rapide a quello che ci chiedono più spesso.</p>
+      </div>
+      <div class="faq-list" data-reveal>
+        @for (item of faqItems; track item.q; let i = $index) {
+          <div class="faq-item" [class.open]="openFaqIndex === i">
+            <button class="faq-q" (click)="toggleFaq(i)" [attr.aria-expanded]="openFaqIndex === i" type="button">
+              <span class="faq-q-text">{{ item.q }}</span>
+              <span class="faq-toggle" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">{{ item.a }}</div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- UNISCITI -->
+  <section class="section" id="lavora-con-noi" style="background:var(--bg-subtle)">
+    <div class="container">
+      <div class="section-hd" data-reveal>
+        <span class="eyebrow">Team</span>
+        <h2 class="section-heading">Lavora con noi</h2>
+        <p class="section-sub">Sei un Personal Trainer o Nutrizionista certificato? Unisciti al team Kore.</p>
+      </div>
+      <div class="join-card" data-reveal>
+        @if (submitSuccess) {
+          <div class="jf-success">
+            <svg class="jf-success-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>
+            <h3 class="jf-success-title">Candidatura inviata!</h3>
+            <p class="jf-success-sub">Grazie per il tuo interesse. Ti contatteremo a breve.</p>
+          </div>
+        } @else {
+          <form class="jf-form" [formGroup]="applicationForm" (ngSubmit)="submitApplication()" novalidate>
+            <div class="jf-row">
+              <div class="field-group">
+                <label class="field-label">Nome *</label>
+                <input class="field-input" type="text" placeholder="Mario" formControlName="firstName" [class.invalid]="applicationForm.get('firstName')?.invalid && applicationForm.get('firstName')?.touched" />
+              </div>
+              <div class="field-group">
+                <label class="field-label">Cognome</label>
+                <input class="field-input" type="text" placeholder="Rossi" formControlName="lastName" />
+              </div>
+            </div>
+            <div class="jf-row">
+              <div class="field-group">
+                <label class="field-label">Email *</label>
+                <input class="field-input" type="email" placeholder="mario@example.com" formControlName="email" [class.invalid]="applicationForm.get('email')?.invalid && applicationForm.get('email')?.touched" />
+              </div>
+              <div class="field-group">
+                <label class="field-label">Ruolo *</label>
+                <select class="field-input" formControlName="role" [class.invalid]="applicationForm.get('role')?.invalid && applicationForm.get('role')?.touched">
+                  <option value="">Seleziona...</option>
+                  <option value="PT">Personal Trainer</option>
+                  <option value="NUT">Nutrizionista</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Messaggio motivazionale *</label>
+              <textarea class="field-input" rows="4" placeholder="Raccontaci di te..." formControlName="message" [class.invalid]="applicationForm.get('message')?.invalid && applicationForm.get('message')?.touched"></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Curriculum Vitae (PDF, opzionale)</label>
+              <div class="jf-upload" [class.drag]="isDragging"
+                   (click)="fileInput.click()"
+                   (dragover)="onDragOver($event)"
+                   (dragleave)="onDragLeave($event)"
+                   (drop)="onDrop($event)">
+                <input #fileInput type="file" accept=".pdf" style="display:none" (change)="onFileSelected($event)" />
+                @if (selectedFile) {
+                  <svg class="jf-upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>
+                  <p class="jf-upload-text">{{ selectedFile.name }}</p>
+                  <span class="jf-upload-hint">{{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB</span>
+                } @else {
+                  <svg class="jf-upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <p class="jf-upload-text">Clicca o trascina il CV qui</p>
+                  <span class="jf-upload-hint">Solo PDF · max 10 MB</span>
+                }
+              </div>
+              @if (fileError) {
+                <p class="field-error">{{ fileError }}</p>
+              }
+            </div>
+            @if (submitError) {
+              <div class="error-banner">{{ submitError }}</div>
+            }
+            <div style="display:flex;justify-content:flex-end">
+              <button type="submit" class="btn btn-navy" [disabled]="isSubmitting">
+                @if (isSubmitting) {
+                  Invio in corso...
+                } @else {
+                  <span>Invia candidatura</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                }
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="final-cta" aria-label="Inizia ora">
+    <div class="final-cta__orb-1" aria-hidden="true"></div>
+    <div class="final-cta__orb-2" aria-hidden="true"></div>
+    <div class="final-cta__grain" aria-hidden="true"></div>
+    <div class="final-cta__inner">
+      <div class="final-cta__grid">
+        <div class="final-cta__left">
+          <span class="eyebrow final-cta__eyebrow" data-reveal>Pronto a iniziare?</span>
+          <h2 class="final-cta__title" data-reveal data-reveal-delay="1">
+            Il tuo percorso<br><em>inizia ora.</em>
+          </h2>
+          <p class="final-cta__sub" data-reveal data-reveal-delay="2">
+            PT, Nutrizionista e polizza sportiva. Un team coordinato che lavora solo per te. Da oggi, ogni giorno.
+          </p>
+          <div class="final-cta__buttons" data-reveal data-reveal-delay="3">
+            <a routerLink="/register" class="btn btn-gold-lg">
+              Inizia il tuo percorso
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a routerLink="/login" class="btn-ghost-dark-lg">Ho già un account</a>
+          </div>
+        </div>
+        <div class="final-cta__right">
+          <div class="final-cta__highlight" data-reveal data-reveal-delay="1">
+            <div class="final-cta__highlight-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <div class="final-cta__highlight-title">Setup in 48 ore</div>
+              <div class="final-cta__highlight-desc">Il tuo team è pronto subito, non dopo settimane di attesa.</div>
+            </div>
+          </div>
+          <div class="final-cta__highlight" data-reveal data-reveal-delay="2">
+            <div class="final-cta__highlight-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+            </div>
+            <div>
+              <div class="final-cta__highlight-title">Polizza inclusa</div>
+              <div class="final-cta__highlight-desc">Copertura sportiva attiva dal primo giorno, in ogni piano.</div>
+            </div>
+          </div>
+          <div class="final-cta__highlight" data-reveal data-reveal-delay="3">
+            <div class="final-cta__highlight-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="final-cta__highlight-title">Crediti che restano</div>
+              <div class="final-cta__highlight-desc">Sessioni che non scadono, disponibili per tutto il piano.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIÈ DI PAGINA -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <div class="footer__logo">Kore<span class="footer__logo-dot">.</span></div>
+          <p class="footer__tagline">Il tuo team per il benessere.</p>
+        </div>
+        <div class="footer__links">
+          <div>
+            <div class="footer__col-title">Prodotto</div>
+            <a class="footer__link" (click)="scrollToSection('come-funziona')">Come funziona</a>
+            <a class="footer__link" (click)="scrollToSection('piani')">Piani</a>
+            <a class="footer__link" (click)="scrollToSection('app')">L'app</a>
+            <a class="footer__link" (click)="scrollToSection('perche')">Perché Kore</a>
+          </div>
+          <div>
+            <div class="footer__col-title">Azienda</div>
+            <a class="footer__link" (click)="scrollToSection('professionisti')">Professionisti</a>
+            <a class="footer__link" (click)="scrollToSection('testimonianze')">Testimonianze</a>
+            <a class="footer__link" (click)="scrollToSection('faq')">FAQ</a>
+            <a class="footer__link" (click)="scrollToSection('lavora-con-noi')">Lavora con noi</a>
+          </div>
+          <div>
+            <div class="footer__col-title">Account</div>
+            <a routerLink="/login" class="footer__link">Accedi</a>
+            <a routerLink="/register" class="footer__link">Registrati</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span class="footer__copy">© 2026 Kore S.r.l. · P.IVA 12345678901</span>
+        <span class="footer__copy">Privacy Policy · Termini di Servizio</span>
+      </div>
+    </div>
+  </footer>
+
+</div>

@@ -1,0 +1,200 @@
+<div class="mp-page px-4 py-5 sm:max-w-[900px] sm:mx-auto sm:py-8 sm:px-8">
+
+  <!-- Intestazione -->
+  <h3 class="mp-title">I Miei Professionisti</h3>
+  <p class="mp-subtitle">Prenota un appuntamento o lascia una recensione</p>
+
+  <!-- Schede professionisti -->
+  @if (professionals.length > 0) {
+    <div class="mp-grid">
+      @for (p of professionals; track p) {
+        <div class="mp-card">
+          <!-- Barra decorativa -->
+          <div class="mp-card-accent" [class.blue]="p.role === 'PERSONAL_TRAINER'"
+          [class.gold]="p.role !== 'PERSONAL_TRAINER'"></div>
+          <div class="mp-card-body">
+            <!-- Avatar + Info -->
+            <div class="mp-prof-header">
+              <div class="mp-avatar" [class.blue-border]="p.role === 'PERSONAL_TRAINER'"
+                [class.gold-border]="p.role !== 'PERSONAL_TRAINER'">
+                @if (p.profilePicture) {
+                  <img [src]="p.profilePicture" [alt]="p.fullName">
+                }
+                @if (!p.profilePicture) {
+                  <span class="mp-avatar-icon">{{ p.role === 'PERSONAL_TRAINER' ? '💪' :
+                  '🥗' }}</span>
+                }
+              </div>
+              <div class="mp-prof-info">
+                <span class="mp-role-badge" [class.blue]="p.role === 'PERSONAL_TRAINER'"
+                  [class.gold]="p.role !== 'PERSONAL_TRAINER'">
+                  {{ p.role === 'PERSONAL_TRAINER' ? 'Personal Trainer' : 'Nutrizionista' }}
+                </span>
+                <div class="mp-prof-name">{{ p.fullName }}</div>
+                @if (p.professionalBio) {
+                  <div class="mp-prof-bio">{{ p.professionalBio }}</div>
+                }
+              </div>
+            </div>
+            <!-- Valutazione aggregata -->
+            @if (reviewsMap[p.id]?.length) {
+              <div class="mp-rating-row">
+                <span class="mp-star">⭐</span>
+                <span class="mp-avg-rating">{{ getAvgRating(reviewsMap[p.id]) | number:'1.1-1' }}</span>
+                <span class="mp-review-count">({{ reviewsMap[p.id].length }} recensioni)</span>
+              </div>
+            }
+            @if (!reviewsMap[p.id]?.length) {
+              <div class="mp-no-reviews">
+                Nessuna recensione ancora
+              </div>
+            }
+            <!-- Separatore -->
+            <div class="mp-divider"></div>
+            <!-- Bottone prenota -->
+            <button class="mp-btn-book" [class.blue]="p.role === 'PERSONAL_TRAINER'"
+              [class.gold]="p.role !== 'PERSONAL_TRAINER'" (click)="bookProfessional.emit(p)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              Prenota Appuntamento
+            </button>
+            <!-- Area recensione -->
+            <div class="mp-review-section">
+              <!-- HA GIÀ RECENSITO (fonte affidabile dal backend) -->
+              @if (hasReviewedServerMap[p.id]) {
+                <!-- Contenuto trovato nella lista pubblica -->
+                @if (hasReviewedMap[p.id]) {
+                  <div class="mp-my-review">
+                    <div class="mp-my-review-label">📝 La tua recensione</div>
+                    <div class="mp-stars-display">
+                      @for (s of getStars(hasReviewedMap[p.id]!.rating); track s) {
+                        <span
+                        class="mp-star-filled">★</span>
+                      }
+                      @for (s of getStars(5 - hasReviewedMap[p.id]!.rating); track s) {
+                        <span
+                        class="mp-star-empty">★</span>
+                      }
+                    </div>
+                    <p class="mp-review-text">"{{ hasReviewedMap[p.id]!.comment }}"</p>
+                  </div>
+                }
+                <!-- Ripiego se il contenuto non è ancora caricato -->
+                @if (!hasReviewedMap[p.id]) {
+                  <div class="mp-my-review">
+                    <div class="mp-my-review-label">📝 La tua recensione</div>
+                    <p class="mp-review-text" style="color:var(--color-text-muted);font-style:italic;">Hai già recensito questo
+                    professionista ✓</p>
+                  </div>
+                }
+              }
+              <!-- NON HA ANCORA RECENSITO -->
+              @if (!hasReviewedServerMap[p.id]) {
+                <!-- Può recensire: mostra il modulo -->
+                @if (canReviewMap[p.id]) {
+                  <div>
+                    <button class="mp-btn-review-toggle" (click)="toggleReviewForm(p.id)"
+                      [class.open]="reviewFormOpen[p.id]">
+                      {{ reviewFormOpen[p.id] ? '✕ Chiudi' : '✍️ Lascia la tua recensione' }}
+                    </button>
+                    @if (reviewFormOpen[p.id]) {
+                      <div class="mp-review-form">
+                        <div class="mp-star-picker">
+                          @for (s of [1,2,3,4,5]; track s) {
+                            <span class="mp-star-pick"
+                            [class.active]="reviewRating[p.id] >= s" (click)="setRating(p.id, s)">★</span>
+                          }
+                        </div>
+                        <textarea class="mp-review-textarea" rows="3"
+                          placeholder="Descrivi la tua esperienza..."
+                        [(ngModel)]="reviewComment[p.id]"></textarea>
+                        @if (reviewError[p.id]) {
+                          <div class="mp-review-error">{{ reviewError[p.id] }}</div>
+                        }
+                        <button class="mp-btn-submit-review" [disabled]="reviewSubmitting[p.id]"
+                          (click)="submitReview(p)">
+                          {{ reviewSubmitting[p.id] ? 'Invio in corso...' : 'Invia Recensione' }}
+                        </button>
+                      </div>
+                    }
+                  </div>
+                }
+                <!-- Non ancora abilitato (meno di 1 mese dalla registrazione) -->
+                @if (!canReviewMap[p.id] && hasReviewedServerMap[p.id] !== undefined) {
+                  <div class="mp-review-locked"
+                    >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    Potrai recensire tra <strong>{{ getDaysUntilReview() }}</strong> giorni
+                  </div>
+                }
+              }
+              <!-- Successo invio (sessione corrente) -->
+              @if (reviewSuccess[p.id]) {
+                <div class="mp-review-success">
+                  ✅ Recensione inviata con successo!
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Nessun professionista -->
+  @if (professionals.length === 0) {
+    <div class="mp-empty">
+      <div class="mp-empty-icon">👤</div>
+      <h4 class="mp-empty-title">Nessun professionista assegnato</h4>
+      <p class="mp-empty-text">I tuoi professionisti appariranno qui quando ti saranno assegnati.</p>
+    </div>
+  }
+
+</div>
+
+<!-- MODALE RECENSIONI PUBBLICHE -->
+@if (publicReviewsModal) {
+  <div class="mp-modal-overlay" (click)="closePublicReviews()">
+    <div class="mp-modal" (click)="$event.stopPropagation()">
+      <div class="mp-modal-header">
+        <h3 class="mp-modal-title">Recensioni — {{ publicReviewsModal.prof.fullName }}</h3>
+        <button class="mp-modal-close" (click)="closePublicReviews()">✕</button>
+      </div>
+      <div class="mp-modal-body">
+        @for (r of publicReviewsModal.reviews; track r) {
+          <div class="mp-modal-review">
+            <div class="mp-modal-review-top">
+              <span class="mp-modal-author">{{ r.authorName }}</span>
+              <div class="mp-modal-stars">
+                @for (s of getStars(r.rating); track s) {
+                  <span class="mp-star-filled">★</span>
+                }
+                @for (s of getStars(5 - r.rating); track s) {
+                  <span class="mp-star-empty">★</span>
+                }
+              </div>
+            </div>
+            <p class="mp-modal-comment">{{ r.comment }}</p>
+            @if (r.date) {
+              <span class="mp-modal-date">{{ r.date | date:'d MMM yyyy' }}</span>
+            }
+          </div>
+        }
+        @if (!publicReviewsModal.reviews.length) {
+          <div class="mp-modal-empty">
+            Nessuna recensione ancora per questo professionista.
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

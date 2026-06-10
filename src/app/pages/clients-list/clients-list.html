@@ -1,0 +1,93 @@
+<div class="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] px-5 py-8 md:px-10 md:py-12">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Intestazione -->
+    <div class="mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+      <div>
+        <h1 class="font-['Clash_Display'] text-[2.2rem] md:text-[2.8rem] font-medium text-[var(--text-primary)] leading-tight tracking-[-0.02em]">
+          I Miei Clienti<span class="text-[var(--gold-accent)]">.</span>
+        </h1>
+        <p class="text-[0.88rem] text-[var(--text-secondary)] mt-1.5 max-w-lg">
+          Il tuo <span class="text-[var(--navy-primary)] font-semibold">Hub Professionale</span>. Consulta e gestisci i profili delle persone che si affidano a te.
+        </p>
+      </div>
+      <a href="/dashboard"
+        class="flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-panel)] border border-[var(--border-subtle)] text-[var(--text-secondary)] text-[0.85rem] font-semibold hover:border-[var(--border-medium)] hover:text-[var(--navy-primary)] hover:shadow-[var(--shadow-sm)] transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Dashboard
+      </a>
+    </div>
+
+    <!-- Griglia clienti -->
+    @if (clients && clients.length > 0) {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        @for (client of clients; track client) {
+          <div
+            class="client-card group bg-[var(--bg-panel)] rounded-2xl border border-[var(--border-subtle)] overflow-hidden shadow-[var(--shadow-sm)] cursor-pointer">
+            <!-- Striscia decorativa -->
+            <div class="h-1.5 w-full bg-gradient-to-r from-[var(--navy-primary)] to-[var(--navy-mid)]"></div>
+            <div class="p-6 flex flex-col items-center text-center">
+              <!-- Avatar -->
+              <div class="relative mb-4">
+                <div class="w-20 h-20 rounded-full border-2 border-[var(--border-medium)] overflow-hidden flex items-center justify-center bg-gradient-to-br from-[var(--bg-elevated)] to-[var(--bg-subtle)] group-hover:border-[var(--gold-accent)] transition-all duration-300">
+                  @if (client.profilePictureUrl) {
+                    <img [src]="client.profilePictureUrl" alt="Foto Profilo"
+                      class="w-full h-full object-cover">
+                  }
+                  @if (!client.profilePictureUrl) {
+                    <svg class="w-9 h-9 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                      </svg>
+                    }
+                  </div>
+                  <!-- Anello dorato al passaggio del mouse -->
+                  <div class="absolute inset-[-5px] rounded-full border border-[var(--gold-accent)]/0 group-hover:border-[var(--gold-accent)]/40 transition-all duration-300 group-hover:animate-spin-slow"></div>
+                </div>
+                <!-- Info -->
+                <h3 class="font-['Clash_Display'] text-[1.1rem] font-medium text-[var(--text-primary)] mb-1 leading-snug">
+                  {{ client.firstName }} {{ client.lastName }}
+                </h3>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[var(--navy-primary)]/8 border border-[var(--navy-primary)]/15 text-[0.65rem] font-semibold text-[var(--navy-primary)] uppercase tracking-[0.10em] mb-3">
+                  Cliente
+                </span>
+                <p class="text-[0.78rem] text-[var(--text-muted)] truncate w-full px-1">
+                  {{ client.email }}
+                </p>
+                <!-- Separatore -->
+                <div class="w-full h-px bg-[var(--border-subtle)] my-5"></div>
+                <!-- Azione -->
+                <button class="card-action-btn w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-[var(--border-medium)] text-[var(--text-secondary)] text-[0.82rem] font-semibold">
+                  Vedi Scheda
+                  <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="flex justify-center mt-12">
+          <div class="w-full max-w-xl bg-[var(--bg-panel)] rounded-2xl border border-[var(--border-subtle)] shadow-[var(--shadow-md)] p-12 text-center">
+            <div class="mx-auto w-16 h-16 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--border-medium)] flex items-center justify-center mb-6">
+              <svg class="w-8 h-8 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+              </div>
+              <h3 class="font-['Clash_Display'] text-[1.6rem] font-medium text-[var(--text-primary)] mb-3">Archivio Vuoto</h3>
+              <p class="text-[0.85rem] text-[var(--text-secondary)] leading-relaxed max-w-sm mx-auto">
+                Al momento non è stato assegnato alcun cliente al tuo profilo. Appariranno qui non appena si iscriveranno e sceglieranno i tuoi servizi.
+              </p>
+            </div>
+          </div>
+        }
+
+        <!-- Stato vuoto -->
+
+      </div>
+    </div>

@@ -1,0 +1,231 @@
+<div class="flex h-full overflow-hidden">
+
+  <!-- colonna sinistra: lista professionisti -->
+  <div class="flex flex-col border-r border-[var(--color-border-subtle)]"
+    [class.hidden]="isMobile && selectedProfessional"
+    [class.w-full]="isMobile && !selectedProfessional"
+    [class.w-[280px]]="!isMobile"
+    [class.flex-shrink-0]="!isMobile">
+
+    <!-- Intestazione sinistra -->
+    <div class="flex-shrink-0 px-4 pt-4 pb-3">
+      <h2 class="font-['Clash_Display'] text-[1.1rem] font-black text-[var(--color-primary-navy)] mb-2">Professionisti</h2>
+      <div class="relative">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--color-text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" [(ngModel)]="profSearch" placeholder="Cerca..."
+          class="w-full pl-8 pr-3 py-1.5 text-[0.82rem] border border-[var(--color-border-subtle)] rounded-lg bg-[var(--color-bg-subtle)] focus:outline-none focus:border-[var(--color-accent-gold)]/60 transition-all">
+        </div>
+      </div>
+
+      <!-- Lista professionisti -->
+      <div class="flex-1 overflow-y-auto px-3 pb-4">
+        @if (professionals.length === 0) {
+          <div class="text-center py-8 text-[0.8rem] text-[var(--color-text-muted)]">Nessun professionista</div>
+        }
+        <div class="flex flex-col gap-1.5">
+          @for (p of professionals; track p) {
+            <div
+              class="flex items-center gap-2.5 rounded-xl p-3 cursor-pointer transition-all border"
+              [ngClass]="selectedProfessional?.id === p.id
+                ? 'bg-[var(--color-primary-navy)] text-white border-[var(--color-primary-navy)]'
+                : 'bg-white border-[var(--color-border-subtle)] hover:border-[var(--color-primary-navy)]/30'"
+              (click)="selectProfessional(p)">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-[0.75rem] font-bold flex-shrink-0"
+                [ngClass]="selectedProfessional?.id === p.id
+                  ? 'bg-white text-[var(--color-primary-navy)]'
+                  : 'bg-gradient-to-br from-[var(--navy-primary)] to-[var(--navy-mid)] text-white'">
+                {{ getInitials(p) }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[0.84rem] font-bold truncate">{{ p.firstName }} {{ p.lastName }}</div>
+                <div class="text-[0.68rem] opacity-70 truncate">{{ getRoleLabel(p.role) }}</div>
+              </div>
+              <span class="text-[1rem] flex-shrink-0">{{ getRoleIcon(p.role) }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- colonna destra: clienti e relativi documenti -->
+    <div class="flex flex-col flex-1 min-w-0 overflow-hidden"
+      [class.hidden]="isMobile && !selectedProfessional">
+
+      <!-- Nessun professionista selezionato -->
+      @if (!selectedProfessional) {
+        <div class="flex-1 flex flex-col items-center justify-center gap-3 text-[var(--color-text-muted)]">
+          <div class="text-[3rem] opacity-30">📂</div>
+          <p class="text-[0.85rem]">Seleziona un professionista</p>
+        </div>
+      }
+
+      @if (selectedProfessional) {
+        <!-- Intestazione destra -->
+        <div class="flex-shrink-0 px-4 pt-4 pb-3 border-b border-[var(--color-border-subtle)]">
+          <div class="flex items-center gap-2 mb-2">
+            <!-- Pulsante indietro (mobile) -->
+            @if (isMobile) {
+              <button (click)="backToProfessionals()"
+                class="w-7 h-7 rounded-lg border border-[var(--color-border-subtle)] flex items-center justify-center text-[var(--color-text-muted)] hover:bg-[var(--color-bg-subtle)] transition-all flex-shrink-0">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </button>
+            }
+            <div>
+              <div class="font-['Clash_Display'] text-[1.05rem] font-black text-[var(--color-primary-navy)]">
+                {{ getRoleIcon(selectedProfessional.role) }} {{ selectedProfessional.firstName }} {{ selectedProfessional.lastName }}
+              </div>
+              <div class="text-[0.72rem] text-[var(--color-text-muted)]">{{ getRoleLabel(selectedProfessional.role) }} · {{ linkedClients.length }} clienti</div>
+            </div>
+          </div>
+        </div>
+        <!-- Lista clienti con accordion -->
+        <div class="flex-1 overflow-y-auto px-4 py-3">
+          @if (linkedClients.length === 0) {
+            <div class="text-center py-10 text-[0.82rem] text-[var(--color-text-muted)]">
+              Nessun cliente collegato a questo professionista
+            </div>
+          }
+          <div class="flex flex-col gap-2">
+            @for (client of linkedClients; track client) {
+              <div
+                class="bg-white rounded-xl border border-[var(--color-border-subtle)] overflow-hidden shadow-sm">
+                <!-- Intestazione accordion cliente -->
+                <div class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-[var(--color-bg-subtle)] transition-all"
+                  (click)="toggleClient(client.id)">
+                  <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--navy-primary)] to-[var(--navy-mid)] flex items-center justify-center text-white text-[0.72rem] font-bold flex-shrink-0">
+                    {{ getInitials(client) }}
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-[0.88rem] font-bold text-[var(--color-text-main)] truncate">{{ client.firstName }} {{ client.lastName }}</div>
+                    <div class="text-[0.7rem] text-[var(--color-text-muted)] truncate">{{ client.email }}</div>
+                  </div>
+                  <!-- Contatore doc + chevron -->
+                  <div class="flex items-center gap-2 flex-shrink-0">
+                    @if (clientDocs.has(client.id)) {
+                      <span
+                        class="text-[0.68rem] px-1.5 py-0.5 rounded-full bg-[var(--color-primary-navy)]/8 text-[var(--color-primary-navy)] font-semibold">
+                        {{ getDocsForClient(client.id).length }} doc
+                      </span>
+                    }
+                    <svg class="w-4 h-4 text-[var(--color-text-muted)] transition-transform"
+                      [class.rotate-180]="isClientExpanded(client.id)"
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </div>
+                </div>
+                <!-- Corpo accordion -->
+                @if (isClientExpanded(client.id)) {
+                  <div
+                    class="border-t border-[var(--color-border-subtle)] px-4 py-3">
+                    <!-- Caricamento -->
+                    @if (isClientLoading(client.id)) {
+                      <div class="flex justify-center py-4">
+                        <div class="w-5 h-5 border-2 border-[var(--color-primary-navy)] border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                    }
+                    <!-- Nessun documento -->
+                    @if (!isClientLoading(client.id) && getDocsForClient(client.id).length === 0) {
+                      <div
+                        class="py-3 text-center text-[0.78rem] text-[var(--color-text-muted)]">
+                        Nessun documento caricato da questo professionista
+                      </div>
+                    }
+                    <!-- Lista documenti -->
+                    @if (!isClientLoading(client.id) && getDocsForClient(client.id).length > 0) {
+                      <div
+                        class="flex flex-col gap-2 mb-3">
+                        @for (doc of getDocsForClient(client.id); track doc) {
+                          <div
+                            class="flex flex-col border border-[var(--color-border-subtle)] rounded-lg overflow-hidden">
+                            <div class="flex items-center gap-2.5 px-3 py-2.5">
+                              <span class="text-[1rem] flex-shrink-0">{{ getDocTypeIcon(doc.type) }}</span>
+                              <div class="flex-1 min-w-0">
+                                <div class="text-[0.82rem] font-bold text-[var(--color-text-main)] truncate">{{ doc.fileName }}</div>
+                                <div class="flex items-center gap-1.5 mt-0.5">
+                                  <span class="text-[0.65rem] px-1.5 py-0.5 rounded bg-[var(--color-bg-subtle)] text-[var(--color-text-muted)] font-medium">{{ getDocTypeLabel(doc.type) }}</span>
+                                  <span class="text-[0.65rem] text-[var(--color-text-muted)]">{{ formatDate(doc.uploadDate) }}</span>
+                                </div>
+                                @if (doc.notes && editingNotesDocId !== doc.id) {
+                                  <div
+                                  class="text-[0.7rem] text-[var(--color-text-secondary)] mt-0.5 italic truncate">{{ doc.notes }}</div>
+                                }
+                              </div>
+                              <div class="flex items-center gap-1 flex-shrink-0">
+                                <button (click)="viewDoc(doc)" title="Visualizza"
+                                  class="w-7 h-7 rounded-lg bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] flex items-center justify-center text-[var(--color-primary-navy)] hover:bg-[var(--color-primary-navy)] hover:text-white transition-all">
+                                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                  </svg>
+                                </button>
+                                <button (click)="startEditNotes(doc)" title="Note"
+                                  class="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-500 hover:bg-amber-500 hover:text-white hover:border-amber-500 transition-all">
+                                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                  </svg>
+                                </button>
+                                <button (click)="openDeleteModal(doc, client.id)" title="Elimina"
+                                  class="w-7 h-7 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all">
+                                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                            <!-- Modifica note inline -->
+                            @if (editingNotesDocId === doc.id) {
+                              <div
+                                class="px-3 pb-3 flex flex-col gap-1.5 border-t border-[var(--color-border-subtle)] pt-2">
+                                <textarea [(ngModel)]="editingNotes" rows="2" placeholder="Aggiungi note..."
+                                class="w-full resize-none rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-bg-subtle)] px-3 py-2 text-[0.82rem] focus:outline-none focus:border-[var(--color-accent-gold)]/60 transition-all"></textarea>
+                                <div class="flex gap-2 justify-end">
+                                  <button (click)="cancelEditNotes()"
+                                  class="px-3 py-1 text-[0.76rem] font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] transition-colors">Annulla</button>
+                                  <button (click)="saveNotes(doc, client.id)" [disabled]="savingNotes"
+                                    class="px-3 py-1 rounded-lg text-[0.76rem] font-semibold bg-[var(--color-primary-navy)] text-white hover:bg-[var(--navy-deep)] disabled:opacity-50 transition-colors">
+                                    {{ savingNotes ? 'Salvo...' : 'Salva' }}
+                                  </button>
+                                </div>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                    <!-- Upload per questo cliente -->
+                    <label class="flex items-center gap-2 w-fit px-3 py-1.5 border border-dashed border-[var(--color-primary-navy)]/30 rounded-lg text-[0.78rem] font-medium text-[var(--color-primary-navy)] cursor-pointer hover:bg-[var(--color-primary-navy)]/5 transition-all">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                      </svg>
+                      Carica {{ getDocTypeLabel(getUploadType()) }}
+                      <input type="file" accept="application/pdf" class="hidden" (change)="onFileSelectedForClient($event, client.id)">
+                    </label>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+
+  <!-- Visualizzatore PDF condiviso -->
+  <app-pdf-viewer #pdfViewer />
+
+  <!-- Modale conferma eliminazione documento -->
+  <app-confirm-dialog
+    [open]="showDeleteModal"
+    [loading]="deletingDoc"
+    title="Eliminare il documento?"
+    (confirmed)="confirmDeleteDoc()"
+    (cancelled)="closeDeleteModal()">
+    Sei sicuro di voler eliminare <strong>{{ docToDelete?.fileName }}</strong>?<br>
+    Questa azione <span class="text-red-500 font-bold">non puo essere annullata</span>.
+  </app-confirm-dialog>
