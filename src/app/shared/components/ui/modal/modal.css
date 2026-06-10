@@ -1,0 +1,43 @@
+.modal-overlay {
+  @apply fixed inset-0 z-[900] bg-navy-deep/60;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.modal-wrapper {
+  @apply fixed inset-0 z-[901] flex items-center justify-center p-4;
+  pointer-events: none;
+}
+
+.modal-panel {
+  @apply relative bg-bg-panel rounded-xl shadow-card-lg border border-line-subtle
+         w-full max-h-[90dvh] overflow-y-auto;
+  pointer-events: all;
+  animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-panel--sm { @apply max-w-sm; }
+.modal-panel--md { @apply max-w-lg; }
+.modal-panel--lg { @apply max-w-2xl; }
+
+.modal-header {
+  @apply flex items-center justify-between px-6 pt-5 pb-4 border-b border-line-subtle;
+}
+
+.modal-title {
+  @apply font-display text-lg font-medium text-ink-primary;
+}
+
+.modal-close {
+  @apply w-8 h-8 rounded-md flex items-center justify-center text-ink-secondary
+         hover:bg-bg-subtle hover:text-ink-primary transition-colors duration-150;
+}
+
+.modal-body {
+  @apply p-6;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}

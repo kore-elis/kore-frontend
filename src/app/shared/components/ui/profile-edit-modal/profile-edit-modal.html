@@ -1,0 +1,48 @@
+@if (isOpen) {
+  <div class="fixed inset-0 bg-[var(--navy-primary)]/30 backdrop-blur-[4px] z-[2000]" style="animation: fadeIn 0.2s ease"
+  (click)="close()"></div>
+  <div
+    class="fixed z-[2001] bg-white rounded-xl overflow-hidden flex flex-col top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[450px] shadow-2xl">
+    <div class="flex justify-between items-center px-6 py-4 bg-[var(--navy-primary)]">
+      <span class="font-['Clash_Display'] text-[1.4rem] font-bold text-white">Modifica Profilo</span>
+      <button
+        class="w-7 h-7 bg-white/10 rounded-full text-white text-[0.8rem] flex items-center justify-center transition-all hover:bg-white/20"
+      (click)="close()">✕</button>
+    </div>
+    <div class="p-6 flex flex-col gap-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-[0.65rem] text-[var(--color-text-muted)] uppercase font-semibold mb-1 block">Nome</label>
+          <input type="text" [(ngModel)]="data.firstName"
+            class="w-full px-3 py-2 rounded-xl bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] text-[0.85rem] focus:outline-none focus:border-[var(--color-accent-gold)]">
+          </div>
+          <div>
+            <label class="text-[0.65rem] text-[var(--color-text-muted)] uppercase font-semibold mb-1 block">Cognome</label>
+            <input type="text" [(ngModel)]="data.lastName"
+              class="w-full px-3 py-2 rounded-xl bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] text-[0.85rem] focus:outline-none focus:border-[var(--color-accent-gold)]">
+            </div>
+          </div>
+          <div>
+            <label class="text-[0.65rem] text-[var(--color-text-muted)] uppercase font-semibold mb-1 block">Nuova Password <span
+            class="text-[0.6rem] font-normal lowercase">(lascia vuoto per non cambiare)</span></label>
+            <input type="password" [(ngModel)]="data.password" placeholder="••••••••"
+              class="w-full px-3 py-2 rounded-xl bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] text-[0.85rem] focus:outline-none focus:border-[var(--color-accent-gold)]">
+            </div>
+            <div>
+              <label class="text-[0.65rem] text-[var(--color-text-muted)] uppercase font-semibold mb-1 block">URL Immagine Profilo</label>
+              <input type="text" [(ngModel)]="data.profilePicture" placeholder="https://..."
+                class="w-full px-3 py-2 rounded-xl bg-[var(--color-bg-subtle)] border border-[var(--color-border-subtle)] text-[0.85rem] focus:outline-none focus:border-[var(--color-accent-gold)]">
+              </div>
+            </div>
+            <div class="px-6 py-4 bg-[var(--color-bg-subtle)] border-t border-[var(--color-border-subtle)] flex gap-3 justify-end">
+              <button
+                class="px-4 py-2 rounded-xl bg-white border border-[var(--color-border-subtle)] text-[var(--color-text-main)] text-[0.85rem] font-semibold hover:bg-[#f8f9fc]"
+              (click)="close()">Annulla</button>
+              <button
+                class="px-4 py-2 rounded-xl bg-[var(--color-primary-navy)] border border-[var(--color-primary-navy)] text-white text-[0.85rem] font-bold hover:bg-[var(--color-primary-navy-dark)]"
+                [class.opacity-50]="isSaving" [disabled]="isSaving" (click)="save()">
+                {{ isSaving ? 'Salvataggio...' : 'Salva' }}
+              </button>
+            </div>
+          </div>
+        }

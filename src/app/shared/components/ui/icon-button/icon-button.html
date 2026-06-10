@@ -1,0 +1,14 @@
+<button
+  [type]="type"
+  class="icon-btn"
+  [class.icon-btn--ghost]="variant === 'ghost'"
+  [class.icon-btn--subtle]="variant === 'subtle'"
+  [class.icon-btn--solid]="variant === 'solid'"
+  [class.icon-btn--sm]="size === 'sm'"
+  [class.icon-btn--md]="size === 'md'"
+  [class.icon-btn--lg]="size === 'lg'"
+  [disabled]="disabled"
+  [attr.aria-label]="ariaLabel"
+  (click)="onClick($event)">
+  <ng-content></ng-content>
+</button>

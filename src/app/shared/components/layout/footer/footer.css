@@ -1,0 +1,65 @@
+.footer {
+  background: var(--navy-deep);
+  @apply text-white pt-16 pb-8;
+}
+
+.footer__inner {
+  @apply max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-12
+         border-b border-white/10;
+}
+
+/* Colonna brand */
+.footer__col--brand {
+  @apply lg:col-span-1;
+}
+
+.footer__logo {
+  @apply font-display text-2xl font-medium text-white leading-none inline-flex;
+}
+.footer__logo-dot {
+  color: var(--gold-accent);
+}
+
+.footer__claim {
+  @apply mt-4 font-display text-base font-medium text-white/90 leading-snug;
+}
+
+.footer__sub {
+  @apply mt-2 text-sm text-white/50 leading-relaxed max-w-xs;
+}
+
+/* Intestazioni colonne */
+.footer__col-title {
+  @apply font-mono text-[0.65rem] uppercase tracking-[0.15em] font-medium mb-5;
+  color: var(--gold-accent);
+}
+
+.footer__list {
+  @apply flex flex-col gap-3 list-none p-0 m-0;
+}
+
+.footer__link {
+  @apply text-sm text-white/60 hover:text-white transition-colors duration-150 cursor-pointer;
+}
+.footer__link--muted {
+  @apply cursor-default hover:text-white/60;
+}
+.footer__link--btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+}
+
+/* Barra inferiore */
+.footer__bottom {
+  @apply max-w-7xl mx-auto px-6 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2;
+}
+
+.footer__copy {
+  @apply text-xs text-white/40;
+}
+.footer__copy--muted {
+  @apply text-white/25;
+}

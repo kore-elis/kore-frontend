@@ -1,0 +1,31 @@
+@if (shape === 'circle') {
+  <span
+    class="skeleton-loader"
+    [style.width]="width"
+    [style.height]="width"
+    style="border-radius: 9999px; display: block;"
+    aria-hidden="true">
+  </span>
+}
+
+@if (shape === 'rect') {
+  <span
+    class="skeleton-loader"
+    [style.width]="width"
+    [style.height]="height"
+    style="display: block;"
+    aria-hidden="true">
+  </span>
+}
+
+@if (shape === 'text') {
+  <div class="skeleton-text-block" aria-hidden="true">
+    @for (i of lineArray; track i; let last = $last) {
+      <span
+        class="skeleton-loader"
+        [style.width]="last && lines > 1 ? '65%' : width"
+        style="display: block; height: 0.85em; margin-bottom: 0.5em;">
+      </span>
+    }
+  </div>
+}

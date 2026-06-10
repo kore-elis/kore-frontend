@@ -1,0 +1,85 @@
+.navbar {
+  @apply fixed top-0 left-0 right-0 z-[500] transition-all duration-300 ease-out-soft;
+}
+
+.navbar--scrolled {
+  @apply bg-bg-panel/90 border-b border-line-subtle shadow-card-sm;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.navbar__inner {
+  @apply flex items-center justify-between h-16 px-6 max-w-7xl mx-auto;
+}
+
+/* Logo */
+.navbar__logo {
+  @apply font-display text-2xl font-medium text-ink-primary leading-none;
+}
+.navbar__logo-dot {
+  color: var(--gold-accent);
+}
+
+/* Link desktop */
+.navbar__links {
+  @apply hidden md:flex items-center gap-8;
+}
+.navbar__link {
+  @apply text-sm font-medium text-ink-secondary hover:text-ink-primary
+         transition-colors duration-150 relative;
+}
+.navbar__link::after {
+  content: '';
+  @apply absolute -bottom-0.5 left-0 right-0 h-px bg-gold-accent rounded-full
+         origin-left scale-x-0 transition-transform duration-200 ease-out-soft;
+}
+.navbar__link:hover::after {
+  @apply scale-x-100;
+}
+
+/* CTA desktop */
+.navbar__actions {
+  @apply hidden md:flex items-center gap-3;
+}
+.navbar__cta-ghost {
+  @apply text-sm font-medium text-ink-secondary hover:text-ink-primary px-4 py-2 rounded-md
+         hover:bg-bg-subtle transition-colors duration-150;
+}
+.navbar__cta-primary {
+  @apply inline-flex items-center justify-center text-sm font-medium
+         bg-navy-primary text-white px-5 py-2 rounded-md shadow-card-sm
+         hover:bg-navy-deep hover:-translate-y-px hover:shadow-card-md
+         transition-all duration-200 ease-out-soft;
+}
+
+/* Menu hamburger */
+.navbar__hamburger {
+  @apply md:hidden flex flex-col gap-1.5 p-2 rounded-md hover:bg-bg-subtle
+         transition-colors duration-150;
+}
+.navbar__ham-line {
+  @apply block w-5 h-0.5 bg-ink-primary rounded-full transition-all duration-200 ease-out-soft;
+}
+.navbar__ham-line--open1 { @apply rotate-45 translate-y-2; }
+.navbar__ham-line--open2 { @apply opacity-0 scale-x-0; }
+.navbar__ham-line--open3 { @apply -rotate-45 -translate-y-2; }
+
+/* Menu mobile */
+.navbar__mobile-menu {
+  @apply md:hidden overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out-soft
+         bg-bg-panel border-b border-line-subtle;
+}
+.navbar__mobile-menu--open {
+  max-height: 420px;
+}
+
+.navbar__mobile-links {
+  @apply flex flex-col px-6 pt-4 gap-1;
+}
+.navbar__mobile-link {
+  @apply text-base font-medium text-ink-secondary hover:text-ink-primary py-2.5
+         border-b border-line-subtle last:border-0 transition-colors duration-150;
+}
+.navbar__mobile-actions {
+  @apply flex flex-col gap-3 px-6 py-5;
+}

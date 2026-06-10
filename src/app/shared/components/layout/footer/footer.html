@@ -1,0 +1,57 @@
+<footer class="footer" role="contentinfo">
+  <div class="footer__inner">
+
+    <!-- Colonna 1: Marchio -->
+    <div class="footer__col footer__col--brand">
+      <a routerLink="/" class="footer__logo" aria-label="Kore — Homepage">
+        <span>Kore</span><span class="footer__logo-dot">.</span>
+      </a>
+      <p class="footer__claim">
+        Allenati. Mangia bene. Proteggi il futuro.
+      </p>
+      <p class="footer__sub">
+        Personal training, nutrizione e copertura assicurativa in un solo abbonamento.
+      </p>
+    </div>
+
+    <!-- Colonna 2: Prodotto -->
+    <div class="footer__col">
+      <h3 class="footer__col-title">Prodotto</h3>
+      <ul class="footer__list">
+        <li><button class="footer__link footer__link--btn" (click)="scrollTo('come-funziona')">Come funziona</button></li>
+        <li><button class="footer__link footer__link--btn" (click)="scrollTo('piani')">I Piani</button></li>
+        <li><button class="footer__link footer__link--btn" (click)="scrollTo('professionisti')">I Professionisti</button></li>
+        <li><button class="footer__link footer__link--btn" (click)="scrollTo('perche-sceglierci')">Perché Kore</button></li>
+        <li><button class="footer__link footer__link--btn" (click)="scrollTo('experience-carousel')">Scopri l'app</button></li>
+        <li><button class="footer__link footer__link--btn" (click)="scrollTo('faq')">FAQ</button></li>
+        <li><button class="footer__link footer__link--btn" (click)="scrollTo('lavora-con-noi')">Lavora con noi</button></li>
+      </ul>
+    </div>
+
+    <!-- Colonna 3: Accesso -->
+    <div class="footer__col">
+      <h3 class="footer__col-title">Account</h3>
+      <ul class="footer__list">
+        <li><a routerLink="/login" class="footer__link">Accedi</a></li>
+        <li><a routerLink="/register" class="footer__link">Registrati</a></li>
+        <li><a routerLink="/reset-password" class="footer__link">Recupera password</a></li>
+      </ul>
+    </div>
+
+    <!-- Colonna 4: Legale -->
+    <div class="footer__col">
+      <h3 class="footer__col-title">Legale</h3>
+      <ul class="footer__list">
+        <li><span class="footer__link footer__link--muted">Privacy Policy</span></li>
+        <li><span class="footer__link footer__link--muted">Termini di servizio</span></li>
+        <li><span class="footer__link footer__link--muted">Cookie Policy</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer__bottom">
+    <p class="footer__copy">&copy; {{ year }} Kore. Tutti i diritti riservati.</p>
+    <p class="footer__copy footer__copy--muted">Progetto accademico — Università degli Studi</p>
+  </div>
+</footer>

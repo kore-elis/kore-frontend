@@ -1,0 +1,16 @@
+.badge {
+  @apply inline-flex items-center gap-1.5 font-mono font-medium uppercase tracking-widest rounded-full;
+}
+
+.badge--sm { @apply px-2 py-0.5 text-[0.6rem]; }
+.badge--md { @apply px-2.5 py-1 text-[0.65rem]; }
+
+.badge--accent  { @apply bg-gold-light text-gold-dark; }
+.badge--neutral { @apply bg-bg-elevated text-ink-secondary; }
+.badge--success { @apply bg-green-50 text-state-success; }
+.badge--warning { @apply bg-amber-50 text-state-warning; }
+.badge--danger  { @apply bg-red-50 text-state-error; }
+
+.badge__dot {
+  @apply w-1.5 h-1.5 rounded-full bg-current flex-shrink-0;
+}

@@ -1,0 +1,14 @@
+<span
+  class="badge"
+  [class.badge--sm]="size === 'sm'"
+  [class.badge--md]="size === 'md'"
+  [class.badge--accent]="tone === 'accent'"
+  [class.badge--neutral]="tone === 'neutral'"
+  [class.badge--success]="tone === 'success'"
+  [class.badge--warning]="tone === 'warning'"
+  [class.badge--danger]="tone === 'danger'">
+  @if (dot) {
+    <span class="badge__dot" aria-hidden="true"></span>
+  }
+  <ng-content></ng-content>
+</span>

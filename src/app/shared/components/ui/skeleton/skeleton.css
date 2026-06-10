@@ -1,0 +1,3 @@
+.skeleton-text-block {
+  @apply flex flex-col gap-1;
+}

@@ -1,0 +1,38 @@
+@if (open) {
+  <div
+    class="modal-overlay"
+    (click)="onBackdropClick()"
+    aria-hidden="true">
+  </div>
+  <div
+    class="modal-wrapper"
+    role="dialog"
+    [attr.aria-modal]="true"
+    [attr.aria-label]="title || 'Dialog'">
+    <div
+      #panel
+      class="modal-panel"
+      [class.modal-panel--sm]="size === 'sm'"
+      [class.modal-panel--md]="size === 'md'"
+      [class.modal-panel--lg]="size === 'lg'"
+      (click)="$event.stopPropagation()">
+      @if (title) {
+        <div class="modal-header">
+          <h2 class="modal-title">{{ title }}</h2>
+          <button
+            class="modal-close"
+            type="button"
+            aria-label="Chiudi"
+            (click)="onClose()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      }
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+}

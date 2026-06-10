@@ -1,0 +1,23 @@
+.empty-state {
+  @apply flex flex-col items-center justify-center gap-3 py-16 px-6 text-center;
+}
+
+.empty-state__icon {
+  @apply w-12 h-12 text-ink-muted flex items-center justify-center;
+}
+
+.empty-state__icon :host ::ng-deep svg {
+  @apply w-full h-full;
+}
+
+.empty-state__title {
+  @apply font-display text-xl font-medium text-ink-primary;
+}
+
+.empty-state__description {
+  @apply text-sm text-ink-secondary max-w-xs leading-relaxed;
+}
+
+.empty-state__cta {
+  @apply mt-2;
+}

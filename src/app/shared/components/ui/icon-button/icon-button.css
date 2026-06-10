@@ -1,0 +1,25 @@
+.icon-btn {
+  @apply inline-flex items-center justify-center rounded-md
+         transition-all duration-200 ease-out-soft
+         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-accent focus-visible:ring-offset-2;
+}
+
+.icon-btn--sm { @apply w-7 h-7; }
+.icon-btn--md { @apply w-9 h-9; }
+.icon-btn--lg { @apply w-11 h-11; }
+
+.icon-btn--ghost {
+  @apply text-ink-secondary hover:text-ink-primary hover:bg-bg-subtle;
+}
+
+.icon-btn--subtle {
+  @apply text-ink-secondary bg-bg-subtle hover:bg-bg-elevated hover:text-ink-primary;
+}
+
+.icon-btn--solid {
+  @apply text-white bg-navy-primary hover:bg-navy-deep shadow-card-sm;
+}
+
+.icon-btn:disabled {
+  @apply opacity-40 cursor-not-allowed pointer-events-none;
+}

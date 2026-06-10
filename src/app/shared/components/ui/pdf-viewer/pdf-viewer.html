@@ -1,0 +1,44 @@
+<!-- Overlay del visualizzatore PDF: cliccando fuori dal riquadro si chiude. -->
+@if (open) {
+  <div class="fixed inset-0 bg-[var(--color-text-main)]/50 backdrop-blur-[4px] z-[200] flex items-center justify-center p-3 sm:p-6"
+    (click)="close()">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl h-[85vh] sm:h-[88vh] flex flex-col overflow-hidden"
+      (click)="$event.stopPropagation()">
+      <div class="flex items-center justify-between px-4 sm:px-6 py-3 bg-[var(--color-primary-navy)] flex-shrink-0">
+        <div class="flex items-center gap-3 min-w-0 flex-1">
+          <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-[1rem] flex-shrink-0">📄
+          </div>
+          <span class="text-white text-[0.85rem] font-semibold truncate">{{ fileName }}</span>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0 ml-3">
+          <button
+            class="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/20 transition-all"
+            title="Apri in nuova tab" (click)="openInNewTab()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </button>
+          <button
+            class="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white/80 hover:bg-red-500/80 transition-all"
+            title="Chiudi" (click)="close()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="flex-1 bg-[#525659] relative overflow-hidden">
+        @if (loading) {
+          <div class="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <div class="w-8 h-8 border-2 border-[var(--color-accent-gold)] border-t-transparent rounded-full animate-spin"></div>
+            <span class="text-white/60 text-[0.82rem]">Caricamento...</span>
+          </div>
+        }
+        @if (url && !loading) {
+          <iframe [src]="url" class="w-full h-full border-0"></iframe>
+        }
+      </div>
+    </div>
+  </div>
+}

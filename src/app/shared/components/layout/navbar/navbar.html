@@ -1,0 +1,49 @@
+<header class="navbar" [class.navbar--scrolled]="scrolled" role="banner">
+  <div class="navbar__inner">
+
+    <!-- Logo -->
+    <a routerLink="/" class="navbar__logo" aria-label="Kore — Homepage" (click)="closeMenu()">
+      <span class="navbar__logo-word">Kore</span><span class="navbar__logo-dot">.</span>
+    </a>
+
+    <!-- Link di navigazione — desktop -->
+    <nav class="navbar__links" aria-label="Navigazione principale">
+      <a class="navbar__link" routerLink="/" fragment="come-funziona" (click)="closeMenu()">Come funziona</a>
+      <a class="navbar__link" routerLink="/" fragment="piani" (click)="closeMenu()">Piani</a>
+      <a class="navbar__link" routerLink="/" fragment="professionisti" (click)="closeMenu()">Professionisti</a>
+      <a class="navbar__link" routerLink="/" fragment="perche-sceglierci" (click)="closeMenu()">Perché Kore</a>
+    </nav>
+
+    <!-- CTA — desktop -->
+    <div class="navbar__actions">
+      <a routerLink="/login" class="navbar__cta-ghost">Accedi</a>
+      <a routerLink="/register" class="navbar__cta-primary">Inizia ora</a>
+    </div>
+
+    <!-- Hamburger — mobile -->
+    <button
+      class="navbar__hamburger"
+      type="button"
+      [attr.aria-expanded]="menuOpen"
+      aria-label="Apri menu"
+      (click)="toggleMenu()">
+      <span class="navbar__ham-line" [class.navbar__ham-line--open1]="menuOpen"></span>
+      <span class="navbar__ham-line" [class.navbar__ham-line--open2]="menuOpen"></span>
+      <span class="navbar__ham-line" [class.navbar__ham-line--open3]="menuOpen"></span>
+    </button>
+  </div>
+
+  <!-- Menu mobile -->
+  <div class="navbar__mobile-menu" [class.navbar__mobile-menu--open]="menuOpen" aria-hidden="{{ !menuOpen }}">
+    <nav class="navbar__mobile-links">
+      <a class="navbar__mobile-link" routerLink="/" fragment="come-funziona" (click)="closeMenu()">Come funziona</a>
+      <a class="navbar__mobile-link" routerLink="/" fragment="piani" (click)="closeMenu()">Piani</a>
+      <a class="navbar__mobile-link" routerLink="/" fragment="professionisti" (click)="closeMenu()">Professionisti</a>
+      <a class="navbar__mobile-link" routerLink="/" fragment="perche-sceglierci" (click)="closeMenu()">Perché Kore</a>
+    </nav>
+    <div class="navbar__mobile-actions">
+      <a routerLink="/login" class="navbar__mobile-link" (click)="closeMenu()">Accedi</a>
+      <a routerLink="/register" class="navbar__cta-primary w-full text-center" (click)="closeMenu()">Inizia ora</a>
+    </div>
+  </div>
+</header>

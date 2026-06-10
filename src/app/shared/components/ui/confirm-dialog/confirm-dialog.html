@@ -1,0 +1,36 @@
+<!-- Modale di conferma eliminazione (stile condiviso) -->
+@if (open) {
+  <div class="fixed inset-0 bg-[var(--color-text-main)]/40 backdrop-blur-[4px] z-[200] flex items-center justify-center p-4" (click)="onCancel()">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-[340px] overflow-hidden" (click)="$event.stopPropagation()">
+      <div class="p-6 flex flex-col items-center text-center">
+        <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mb-4">
+          <span class="text-[1.8rem]">🗑️</span>
+        </div>
+        <h3 class="font-['Clash_Display'] text-[1.4rem] font-black text-[var(--color-text-main)] leading-tight mb-2">
+          {{ title }}
+        </h3>
+        <p class="text-[0.85rem] text-[var(--color-text-muted)] leading-relaxed mb-6">
+          <ng-content></ng-content>
+        </p>
+        <div class="w-full flex gap-3">
+          <button
+            class="flex-1 py-2.5 rounded-xl bg-white border border-[var(--color-border-subtle)] text-[var(--color-text-main)] text-[0.85rem] font-bold hover:bg-[var(--color-bg-subtle)] transition-all active:scale-[0.97]"
+            (click)="onCancel()">
+            Annulla
+          </button>
+          <button
+            class="flex-1 py-2.5 rounded-xl bg-red-500 text-white text-[0.85rem] font-bold hover:bg-red-600 transition-all active:scale-[0.97] flex justify-center items-center gap-2"
+            [class.opacity-70]="loading"
+            [disabled]="loading"
+            (click)="onConfirm()">
+            <svg class="w-4 h-4 animate-spin hidden" [class.!block]="loading" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            {{ loading ? loadingLabel : confirmLabel }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,67 @@
+.btn {
+  @apply inline-flex items-center justify-center gap-2 font-sans font-medium rounded-md
+         transition-all duration-200 ease-out-soft select-none whitespace-nowrap
+         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-accent focus-visible:ring-offset-2;
+  cursor: pointer;
+}
+
+/* Dimensioni */
+.btn--sm  { @apply px-3 py-1.5 text-sm; }
+.btn--md  { @apply px-5 py-2.5 text-sm; }
+.btn--lg  { @apply px-7 py-3.5 text-base; }
+
+/* Varianti */
+.btn--primary {
+  @apply bg-navy-primary text-white shadow-card-sm;
+}
+.btn--primary:hover:not(:disabled) {
+  @apply bg-navy-deep shadow-card-md -translate-y-px;
+}
+.btn--primary:active:not(:disabled) {
+  @apply translate-y-0 shadow-card-sm;
+}
+
+.btn--secondary {
+  @apply bg-bg-panel text-navy-primary border border-line-medium shadow-card-sm;
+}
+.btn--secondary:hover:not(:disabled) {
+  @apply border-gold-accent text-navy-deep shadow-card-md -translate-y-px;
+}
+
+.btn--ghost {
+  @apply bg-transparent text-navy-primary;
+}
+.btn--ghost:hover:not(:disabled) {
+  @apply bg-bg-subtle;
+}
+
+.btn--danger {
+  @apply bg-state-error text-white shadow-card-sm;
+}
+.btn--danger:hover:not(:disabled) {
+  @apply opacity-90 -translate-y-px shadow-card-md;
+}
+
+/* Disabilitato */
+.btn:disabled {
+  @apply opacity-40 cursor-not-allowed pointer-events-none;
+}
+
+/* Caricamento */
+.btn--loading {
+  @apply cursor-wait;
+}
+
+.btn__spinner {
+  @apply w-4 h-4 rounded-full border-2 border-current border-t-transparent animate-spin flex-shrink-0;
+}
+
+.btn__icon {
+  @apply flex items-center justify-center w-4 h-4 flex-shrink-0;
+}
+.btn__icon--left { @apply -ml-0.5; }
+.btn__icon--right { @apply -mr-0.5; }
+
+.btn__label {
+  @apply leading-none;
+}
