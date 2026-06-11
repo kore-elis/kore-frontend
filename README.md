@@ -58,7 +58,6 @@ Caratteristiche principali:
 | Reattività / stato | RxJS 7.8 (`BehaviorSubject` / `Subject`, no NgRx) |
 | Styling | Tailwind CSS 3.4.19 + PostCSS + Autoprefixer |
 | Real-time | `@stomp/stompjs` 7.3 (con fallback polling) |
-| Testing | Vitest 4.0.8 + jsdom |
 | Build / CLI | Angular CLI 21.1 (`@angular/build`) |
 | Locale | Italiano (`it`) |
 
