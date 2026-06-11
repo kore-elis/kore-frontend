@@ -648,30 +648,11 @@
                                           <span class="text-[0.85rem] font-bold text-gray-500">Data Scadenza</span>
                                           <span class="text-[0.9rem] font-bold text-gray-700">{{ selectedSubscription.endDate | date:'dd/MM/yyyy' }}</span>
                                         </div>
-                                      } @else {
-                                        <!-- Se non è un cliente, mostriamo info sul professionista -->
-                                        @if (selectedUserInfo?.role !== 'CLIENT') {
-                                          <div class="space-y-4">
-                                            <h4 class="text-[0.8rem] font-black text-[var(--color-primary-navy)] uppercase tracking-wide">Dati Professionali</h4>
-                                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                                              <span class="text-[0.85rem] font-bold text-gray-500">Data Registrazione</span>
-                                              <span class="text-[0.9rem] font-bold text-gray-700">{{ selectedUserInfo?.createdAt | date:'dd/MM/yyyy' }}</span>
-                                            </div>
-                                            @if (selectedUserInfo?.professionalBio) {
-                                              <div class="py-2">
-                                                <span class="text-[0.85rem] font-bold text-gray-500 block mb-2">Biografia</span>
-                                                <p class="text-[0.85rem] text-gray-600 leading-relaxed bg-white border border-gray-100 p-3 rounded-xl italic">
-                                                  "{{ selectedUserInfo?.professionalBio }}"
-                                                </p>
-                                              </div>
-                                            }
-                                          </div>
-                                        } @else {
-                                          <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-200 flex flex-col items-center justify-center gap-2">
-                                            <span class="text-[1.2rem] opacity-40">📝</span>
-                                            <span class="text-[0.8rem] font-bold text-gray-400">Nessun piano o abbonamento attivo.</span>
-                                          </div>
-                                        }
+                                      } @else if (selectedUserInfo?.role === 'CLIENT') {
+                                        <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-200 flex flex-col items-center justify-center gap-2">
+                                          <span class="text-[1.2rem] opacity-40">📝</span>
+                                          <span class="text-[0.8rem] font-bold text-gray-400">Nessun piano o abbonamento attivo.</span>
+                                        </div>
                                       }
                                       <!-- Professionisti assegnati (Facoltativo per i Clienti) -->
                                       @if (selectedUserInfo?.role === 'CLIENT' && (selectedUserInfo?.assignedPtName || selectedUserInfo?.assignedNutritionistName)) {

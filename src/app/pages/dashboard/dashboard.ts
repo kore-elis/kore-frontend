@@ -91,6 +91,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   @ViewChild(ProfileEditModalComponent) profileModal!: ProfileEditModalComponent;
 
+  // Esiste solo quando il tab Statistiche è attivo (reso via @if): serve per ricaricarlo al pull-to-refresh.
+  @ViewChild(AdminStatsTabComponent) statsTab?: AdminStatsTabComponent;
+
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private planService = inject(PlanService);
@@ -384,7 +387,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private loadAdminPlans(): void {
     if (this.plansLoaded || this.isInsuranceManager()) return;
-    this.planService.getAdminPlans()
+    // Admin: lista completa (anche disabilitati) per la gestione piani.
+    // Moderatore: solo piani pubblici attivi, gli bastano per assegnare un abbonamento
+    // creando un cliente, e così non chiama l'endpoint admin (niente 403).
+    const plans$ = this.isAdmin()
+      ? this.planService.getAdminPlans()
+      : this.planService.getPlans();
+    plans$
       .pipe(catchError(() => of([])), takeUntilDestroyed(this.destroyRef))
       .subscribe(plans => {
         this._allPlans.set(plans || []);
@@ -436,6 +445,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onPullRefresh(): void {
+    // Sul tab Statistiche ricarichiamo le statistiche (il componente non si auto-aggiorna)
+    // invece dei dati admin generici.
+    if (this.activeTab === 'admin-stats') {
+      this.statsTab?.loadStats();
+      return;
+    }
     if (this.isAdmin() || this.isModerator() || this.isInsuranceManager()) {
       this.reloadAdminData();
     } else {

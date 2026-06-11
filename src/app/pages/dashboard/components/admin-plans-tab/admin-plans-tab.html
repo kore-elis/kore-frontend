@@ -40,11 +40,14 @@
           <div class="flex items-center justify-between pt-3 border-t border-[var(--color-border-subtle)]/60">
             <span class="text-[0.72rem] text-[var(--color-text-muted)]">👑 {{ getActiveSubsForPlan(plan.name) }} abbonati attivi</span>
             <div class="flex items-center gap-1.5">
-              <button
-                class="text-[0.68rem] font-semibold px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-200 text-blue-500 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all"
-                (click)="openEditModal(plan)">
-                ✏️ Modifica
-              </button>
+              <!-- Modifica permessa solo senza abbonati attivi: altrimenti cambierebbe i piani in corso -->
+              @if (canEditPlan(plan)) {
+                <button
+                  class="text-[0.68rem] font-semibold px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-200 text-blue-500 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all"
+                  (click)="openEditModal(plan)">
+                  ✏️ Modifica
+                </button>
+              }
               <!-- Piano attivo: disabilitabile solo senza abbonamenti -->
               @if (isPlanActive(plan) && canDisablePlan(plan)) {
                 <button

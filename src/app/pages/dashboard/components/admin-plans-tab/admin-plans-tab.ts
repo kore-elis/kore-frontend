@@ -35,6 +35,8 @@ export class AdminPlansTabComponent {
   getDurationLabel(duration: string): string { switch (duration) { case 'SEMESTRALE': return '6 mesi'; case 'ANNUALE': return '12 mesi'; default: return duration; } }
   isPlanActive(plan: Plan): boolean { return plan?.active !== false; }
   canDisablePlan(plan: Plan): boolean { return this.getTotalSubsForPlan(plan.name) === 0; }
+  // Un piano con abbonati attivi non è modificabile: cambiarne prezzi/crediti falserebbe gli abbonamenti in corso.
+  canEditPlan(plan: Plan): boolean { return this.getActiveSubsForPlan(plan.name) === 0; }
 
   // Creazione
   openCreateModal(): void {
@@ -138,7 +140,7 @@ export class AdminPlansTabComponent {
       },
       error: (err) => {
         this.editing = false;
-        this.editError = err.error?.error || 'Errore nell\'aggiornamento';
+        this.editError = err.error?.message || err.error?.error || 'Errore nell\'aggiornamento';
         this.cdr.detectChanges();
       }
     });
@@ -165,7 +167,7 @@ export class AdminPlansTabComponent {
       error: (err) => {
         this.disabling = false;
         this.showDisableModal = false;
-        this.toast.error('Errore', err.error?.error || 'Impossibile disabilitare il piano');
+        this.toast.error('Errore', err.error?.message || err.error?.error || 'Impossibile disabilitare il piano');
         this.planToDisable = null;
       }
     });
@@ -179,7 +181,7 @@ export class AdminPlansTabComponent {
         this.plansChanged.emit();
       },
       error: (err) => {
-        this.toast.error('Errore', err.error?.error || 'Impossibile riabilitare il piano');
+        this.toast.error('Errore', err.error?.message || err.error?.error || 'Impossibile riabilitare il piano');
       }
     });
   }
