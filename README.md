@@ -7,7 +7,6 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss&logoColor=white)
 ![RxJS](https://img.shields.io/badge/RxJS-7.8-B7178C?logo=reactivex&logoColor=white)
 ![STOMP](https://img.shields.io/badge/WebSocket-STOMP-010101?logo=socketdotio&logoColor=white)
-![Vitest](https://img.shields.io/badge/tests-Vitest-6E9F18?logo=vitest&logoColor=white)
 
 Frontend di **Kore**, la piattaforma SaaS che riunisce in un unico abbonamento Personal Trainer,
 Nutrizionisti e copertura assicurativa. È una **Single Page Application** Angular 21 a *standalone
