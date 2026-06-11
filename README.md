@@ -69,7 +69,7 @@ Caratteristiche principali:
 ## Struttura del progetto
 
 ```
-Progetto-FE/
+kore-frontend/
 ├── package.json
 ├── angular.json
 ├── tailwind.config.js
@@ -99,9 +99,8 @@ Progetto-FE/
             └── models/         # interfacce TypeScript (dashboard.model.ts)
 ```
 
-I tab della **dashboard** comprendono: home, calendario, chat, clienti, prenotazione consulti,
-"i miei professionisti", servizi, directory professionisti, e i pannelli amministrativi
-(utenti, piani, statistiche, documenti) e assicurativo.
+I tab della **dashboard** comprendono: home, calendario, chat, clienti, "i miei professionisti",
+servizi, e i pannelli amministrativi (utenti, piani, statistiche, documenti) e assicurativo.
 
 ---
 
@@ -111,7 +110,7 @@ I tab della **dashboard** comprendono: home, calendario, chat, clienti, prenotaz
 - **Lazy-loading** di tutte le route via `loadComponent()` per il code-splitting.
 - **Stato** gestito con RxJS (`BehaviorSubject` / `Subject`); nessuna libreria esterna (no NgRx/Akita).
 - **Interceptor funzionali** (`HttpInterceptorFn`) e **guardie funzionali** (`CanActivateFn`).
-- **Signals** usati dove utile (es. titolo applicazione).
+- **Signals** usati dove utile (es. stato locale di alcuni componenti).
 
 ---
 
@@ -175,16 +174,16 @@ In `src/app/core/services/`:
 
 La chat usa **STOMP su WebSocket** tramite `@stomp/stompjs`.
 
-- **`socket.service.ts`** — gestisce il ciclo di vita della connessione STOMP: token JWT negli header del frame **CONNECT**, heartbeat 10s, riconnessione automatica dopo 3s.
+- **`socket.service.ts`** — gestisce il ciclo di vita della connessione STOMP: token JWT negli header del frame **CONNECT**, heartbeat 10s (in entrata e in uscita), riconnessione automatica dopo 3s.
 - **`chat.service.ts`** — API di alto livello sopra `socket.service`; se il WebSocket cade, attiva un **fallback in polling** ogni 3 secondi.
 
 Canali STOMP:
 
 - `/topic/chat/{roomId}` — messaggi della stanza (broadcast)
 - `/user/queue/notifications` — notifiche private (nuovo messaggio, conteggio non letti, delivered/read)
-- `/app/chat.join`, `/app/chat.leave`, `/app/chat.send`, `/app/chat.typing`, `/app/chat.read` — comandi client → server
+- `/app/chat.join`, `/app/chat.leave`, `/app/chat.send`, `/app/chat.read` — comandi client → server
 
-Funzionalità: aggiornamenti ottimistici della UI, indicatori di digitazione, stati messaggio
+Funzionalità: aggiornamenti ottimistici della UI, stati messaggio
 (`SENT`, `DELIVERED`, `READ`), sincronizzazione dei non letti, anteprima dell'ultimo messaggio.
 
 ---
