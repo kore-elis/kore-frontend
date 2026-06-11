@@ -30,7 +30,6 @@ design system su misura in Tailwind CSS.
 10. [Quick Start](#quick-start)
 11. [Script disponibili](#script-disponibili)
 12. [Build & Environments](#build--environments)
-13. [Testing](#testing)
 
 ---
 
@@ -226,7 +225,6 @@ modifica dei file sorgente. In sviluppo punta al backend su `http://localhost:80
 | `npm start` | Avvia il dev server (`ng serve`) su `http://localhost:4200` |
 | `npm run build` | Build (configurazione development) in `dist/` |
 | `npm run watch` | Build in watch mode (configurazione development) |
-| `npm test` | Esegue i test con Vitest |
 | `npm run ng` | Accesso diretto alla Angular CLI |
 
 ---
@@ -243,12 +241,4 @@ Compila l'applicazione e genera gli artefatti in `dist/` usando la configurazion
 |---|---|---|
 | Sviluppo | `src/environments/environment.ts` | `http://localhost:8080` |
 
----
 
-## Testing
-
-```powershell
-npm test
-```
-
-I test girano con **Vitest** + **jsdom** sui file `*.spec.ts`.
